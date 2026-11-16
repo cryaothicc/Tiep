@@ -172,8 +172,7 @@ header,#hint{transition:opacity .3s}
 .again:hover{border-color:var(--ph)}
 #next{background:#343b36;color:var(--ph)}
 .again kbd{border:0;color:var(--ph-dim);font-size:.62rem}
-#weak{font-size:.65rem;color:var(--ph-dim);text-align:right;height:16px;margin-top:8px}
-.keyboard-wrap{width:min(720px,75dvh,100%)}
+.keyboard-wrap{width:min(720px,70dvh,100%);container-type:inline-size}
 
 /* ════════════════════════════════
    KEYBOARD — outside the monitor
@@ -184,12 +183,12 @@ header,#hint{transition:opacity .3s}
   box-shadow:inset 0 1px #ffffff0a,0 5px 0 #070808,0 18px 28px #0005;
 }
 .kbw{width:100%}
-.kb{display:flex;flex-direction:column;gap:2px}
-.kr{display:flex;gap:2px}
+.kb{display:flex;flex-direction:column}
+.kr{display:grid;grid-template-columns:repeat(64,minmax(0,1fr))}
 .key{
   --cap:#d5d4ce;--cap-shine:#e7e6e0;--cap-text:#444943;--cap-base:#aaa9a3;--cap-shadow:#777a74;
-  --cap-depth:clamp(4px,.85vw,8px);--cap-bevel:clamp(3px,.6vw,6px);
-  flex:var(--units,1) 1 0;min-width:0;height:clamp(20px,3.4dvh,34px);
+  --cap-depth:1.3cqw;--cap-bevel:.9cqw;
+  grid-column:span var(--columns,4);margin:1px;min-width:0;height:calc((100cqw - 24px)/16 - 2px);
   position:relative;isolation:isolate;color:var(--cap-text);
   background:var(--cap-base);border-radius:6px;box-shadow:inset 0 -2px #0003,0 1px 1px #000;overflow:hidden;
   font-size:clamp(.42rem,1.05vw,.72rem);white-space:nowrap;
@@ -206,7 +205,7 @@ header,#hint{transition:opacity .3s}
 .key-face{
   position:absolute;z-index:1;inset:1px var(--cap-bevel) var(--cap-depth);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;overflow:hidden;border-radius:clamp(3px,.65vw,6px);
-  font-family:Arial,sans-serif;font-size:clamp(5px,.95dvh,9px);line-height:1.1;
+  font-family:Arial,sans-serif;font-size:clamp(5px,1.25cqw,9px);line-height:1.1;
   background:linear-gradient(100deg,var(--cap-shine),var(--cap) 22%,var(--cap) 78%,var(--cap-shine));
   border:1px solid #0003;box-shadow:inset 0 1px #ffffff40,0 1px 1px #0005;
 }
@@ -330,7 +329,6 @@ header,#hint{transition:opacity .3s}
             <div class="acts">
               <button class="again" id="next">New test</button>
               <button class="again" id="rep">Repeat</button>
-              <button class="again" id="drill" style="display:none">Practice weak keys</button>
             </div>
             <p class="result-shortcuts"><kbd>Tab</kbd> then <kbd>Enter</kbd> new test · <kbd>Tab</kbd> then <kbd>R</kbd> repeat</p>
             <canvas id="chart" aria-label="Typing speed over time"></canvas>
@@ -347,7 +345,6 @@ header,#hint{transition:opacity .3s}
   <div class="desk-kb" id="keyboard">
     <div class="kbw" aria-hidden="true"><div class="kb" id="kb"></div></div>
   </div>
-  <p id="weak"></p>
   </div>
 
 </div><!-- /desk -->
@@ -378,16 +375,14 @@ const area=$("area"),live=$("live");
 let mode="words",variant="normal",len=30,lang="js";
 let list=[],typed=[],wi=0,text="",typedCode="",codeSpans=[],caret,codeLine;
 let started=false,start=0,timer=null,done=false,samples=[],keyTotal=0,errTotal=0;
-let armed=false,armT,drillNext=false;
+let armed=false,armT;
 let keyStats=load("tiep_keys",{}),runs=load("tiep_runs",[]);
 let sound=true;
 function load(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
 function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
 function recordKey(c,ok){keyTotal++;if(!ok)errTotal++;if(c&&c.length===1){const s=keyStats[c]||(keyStats[c]={t:0,e:0});s.t++;if(!ok)s.e++}}
-function weakKeys(){const a=[];for(const c in keyStats){if(/[a-z]/.test(c)){const s=keyStats[c];if(s.t>=5)a.push({c,r:s.e/s.t,t:s.t})}}a.sort((x,y)=>y.r-x.r||y.t-x.t);return a.slice(0,7).map(x=>x.c)}
 function genWords(n){const a=[];for(let i=0;i<n;i++){let w;do{w=WORDS[Math.random()*WORDS.length|0]}while(a.length&&w===a[a.length-1]);a.push(w)}return a}
 function genCode(){return CODE[lang][Math.random()*CODE[lang].length|0]}
-function genDrill(){const wk=weakKeys();if(!wk.length)return genWords(200);const cands=WORDS.filter(w=>wk.some(k=>w.includes(k)));const pool=cands.length?cands:WORDS;const a=[];for(let i=0;i<200;i++){let w;do{w=pool[Math.random()*pool.length|0]}while(a.length&&w===a[a.length-1]);a.push(w)}return a}
 function tokenize(code,lg){
   const kw=lg==="py"?new Set("def return if else elif for while in and or not True False None print range import from class is lambda with as try except".split(" ")):new Set("const let var function return if else for while do switch case break continue new class extends this typeof instanceof in of true false null undefined console log map filter reduce async await import export default try catch".split(" "));
   const out=[];const push=(s,c)=>{for(const ch of s)out.push({ch,c})};
@@ -497,7 +492,7 @@ function blindWords(){if(variant!=="blind")return;area.querySelectorAll(".w").fo
 function typeWord(ch){
   if(done)return;if(!started)begin();
   if(ch===" "){
-    if(!(typed[wi]||""))return;
+    if((typed[wi]||"").length<list[wi].length){flash();return;}
     const ok=typed[wi]===list[wi];recordKey(" ",ok);
     logEvent(`WORD_COMMIT wi=${wi} "${list[wi]}" ${ok?"✓":"✗"}`,ok?"":"err");
     wi++;typed[wi]=typed[wi]||"";
@@ -610,11 +605,11 @@ function finish(el){
   $("result").focus({preventScroll:true});
   if(!samples.length||samples[samples.length-1].t<Math.round(el))samples.push({t:Math.round(el),wpm:r.wpm,raw:r.raw});
   const res=$("result");res.classList.remove("go");void res.offsetWidth;res.classList.add("go");
-  heat();buildTrail(0);replay();$("drill").style.display=weakKeys().length?"":"none";anim(draw,1000,300)}
+  heat();buildTrail(0);replay();anim(draw,1000,300)}
 function heat(){
   let mx=0.12;for(const c in keyMap){const s=keyStats[c];if(s&&s.t)mx=Math.max(mx,s.e/s.t)}
   for(const c in keyMap){const el=keyMap[c],s=keyStats[el.dataset.character];el.style.setProperty("--heat",s&&s.t>=3?Math.min(.65,(s.e/s.t)/mx*.65):0)}
-  const wk=weakKeys();$("weak").textContent=wk.length?"Practice keys · "+wk.join("  "):""}
+}
 function draw(p=1){
   const c=$("chart"),d=devicePixelRatio||1,w=c.clientWidth,h=c.clientHeight;c.width=w*d;c.height=h*d;
   const g=c.getContext("2d");g.scale(d,d);g.clearRect(0,0,w,h);
@@ -645,6 +640,7 @@ addEventListener("keydown",e=>{
   }
   if(armed&&(e.key==="Enter"||e.key.toLowerCase()==="r")){e.preventDefault();armed=false;reset(e.key!=="Enter");return}
   if(e.ctrlKey||e.metaKey||e.altKey)return;
+  if(mode==="words"&&e.code==="Space"&&e.repeat){e.preventDefault();return;}
   if(e.key==="Backspace"){e.preventDefault();if(!done){mode==="words"?backWord():backCode()}return}
   if(e.key==="Enter"){
     if(e.target.closest("button, a"))return;
@@ -668,7 +664,6 @@ $("len").querySelectorAll("button").forEach(b=>b.onclick=()=>{len=+b.dataset.t;s
 $("var").querySelectorAll("button").forEach(b=>b.onclick=()=>{variant=b.dataset.v;setOn($("var"),b);reset()});
 $("snd").onclick=function(){sound=!sound;if(!sound)TiepSound.mute();this.textContent="snd: "+(sound?"on":"off");this.classList.toggle("on",sound);this.setAttribute("aria-pressed",sound)};
 $("next").onclick=()=>reset(false);$("rep").onclick=()=>reset(true);
-$("drill").onclick=()=>{drillNext=true;mode="words";$("lang").style.display="none";setOn($("content"),$("content").firstElementChild);reset(false)};
 $("panelbtn").onclick=function(){
   const panel=$("panel");
   const collapsed=panel.classList.toggle("collapsed");
@@ -690,7 +685,7 @@ function reset(keep){
   clearInterval(timer);clearInterval(panelTick);
   trail.length=0;clearTrail();setFocus(false);started=false;done=false;wi=0;samples=[];keyTotal=0;errTotal=0;armed=false;miniSamples.length=0;
   live.classList.remove("run");
-  if(mode==="words"){if(drillNext){list=genDrill();drillNext=false}else if(!keep||!list.length)list=genWords(200);typed=list.map(()=>"");renderWords()}
+  if(mode==="words"){if(!keep||!list.length)list=genWords(200);typed=list.map(()=>"");renderWords()}
   else{if(!keep||!text)text=genCode();typedCode="";renderCode()}
   if(mode==="words")$("indentHint").hidden=true;
   $("hint").textContent=mode==="code"
@@ -700,7 +695,7 @@ function reset(keep){
   $("result").classList.remove("show","go");$("test").classList.remove("hide");
   $("main").scrollTop=0;
   for(const c in keyMap)keyMap[c].style.removeProperty("--heat");
-  $("weak").textContent="";area.classList.remove("unfocused");area.focus({preventScroll:true});
+  area.classList.remove("unfocused");area.focus({preventScroll:true});
   if(mode==="code")placeCode();
   updateRegisters();updateMiniChart();updateSignalBars();
   logEvent("RESET "+mode+" "+variant+" "+len+"s","sys");startPanelTick()}
@@ -711,10 +706,10 @@ const keyLetters=letters=>Array.from(letters,letter=>["Key"+letter,letter,1,"",l
 const keyDigits=Array.from("1234567890",digit=>["Digit"+digit,digit]);
 const rows=[
   [["Escape","esc",1,"accent"],...Array.from({length:12},(_,i)=>["F"+(i+1),"F"+(i+1),1,i>=4&&i<=8?"mod":""]),["PrintScreen","▦",1,"mod"],["Delete","del",1,"mod"],["Pause","◌",1,"mod"]],
-  [["Backquote","~"],...keyDigits,["Minus","-"],["Equal","="],["Backspace","⌫",1.8,"mod"],["PageUp","pg↑",1,"mod"]],
-  [["Tab","tab",1.5,"mod"],...keyLetters("QWERTYUIOP"),["BracketLeft","["],["BracketRight","]"],["Backslash","\\",1.2],["PageDown","pg↓",1,"mod"]],
-  [["CapsLock","caps",1.7,"mod"],...keyLetters("ASDFGHJKL"),["Semicolon",";"],["Quote","'"],["Enter","return",1.9,"accent"],["Home","home",1,"mod"]],
-  [["ShiftLeft","shift",2.2,"mod"],...keyLetters("ZXCVBNM"),["Comma",","],["Period","."],["Slash","/"],["ShiftRight","shift",1.4,"mod"],["ArrowUp","↑",1,"accent"],["End","end",1,"mod"]],
+  [["Backquote","~"],...keyDigits,["Minus","-"],["Equal","="],["Backspace","⌫",2,"mod"],["PageUp","pg↑",1,"mod"]],
+  [["Tab","tab",1.5,"mod"],...keyLetters("QWERTYUIOP"),["BracketLeft","["],["BracketRight","]"],["Backslash","\\",1.5],["PageDown","pg↓",1,"mod"]],
+  [["CapsLock","caps",1.75,"mod"],...keyLetters("ASDFGHJKL"),["Semicolon",";"],["Quote","'"],["Enter","return",2.25,"accent"],["Home","home",1,"mod"]],
+  [["ShiftLeft","shift",2.25,"mod"],...keyLetters("ZXCVBNM"),["Comma",","],["Period","."],["Slash","/"],["ShiftRight","shift",1.75,"mod"],["ArrowUp","↑",1,"accent"],["End","end",1,"mod"]],
   [["ControlLeft","ctrl",1.25,"mod"],["MetaLeft","win",1.25,"mod"],["AltLeft","alt",1.25,"mod"],["Space","",6.25],["AltRight","alt",1,"mod"],["ContextMenu","menu",1,"mod"],["ControlRight","ctrl",1,"mod"],["ArrowLeft","←",1,"accent"],["ArrowDown","↓",1,"accent"],["ArrowRight","→",1,"accent"]],
 ];
 const legends={Backquote:"`",Digit1:"!",Digit2:"@",Digit3:"#",Digit4:"$",Digit5:"%",Digit6:"^",Digit7:"&",Digit8:"*",Digit9:"(",Digit0:")",Minus:"_",Equal:"+",BracketLeft:"{",BracketRight:"}",Backslash:"|",Semicolon:":",Quote:'"',Comma:"<",Period:">",Slash:"?",F1:"☼",F2:"☀",F3:"▦",F4:"⌕",F5:"♩",F6:"☾",F7:"◂◂",F8:"▷",F9:"▸▸",F10:"◁",F11:"◀",F12:"▶"};
@@ -730,7 +725,7 @@ for(const keys of rows){
     const primary=document.createElement("span");primary.textContent=label;face.appendChild(primary);
     key.appendChild(face);
     key.dataset.character=character;
-    key.style.setProperty("--units",units);
+    key.style.setProperty("--columns",Math.round(units*4));
     keyMap[code]=key;
     row.appendChild(key);
   }

@@ -11,10 +11,11 @@ Open `index.html` in a desktop browser and start typing. No install or build ste
 ## Take a test
 
 - Choose a 15-, 30-, or 60-second test.
+- Space advances after you enter the full word’s length. Mistyped letters stay red and can be corrected with Backspace.
 - **Normal** runs a standard test. **Blind** blurs upcoming text.
 - In code mode, the active line is highlighted. ↵ appears when Enter is next, and an indentation hint appears when Tab can fill leading spaces.
 - Use the hamburger button to show or hide diagnostics. The keyboard stays below the monitor and replays your keystrokes after the test.
-- Review WPM and accuracy, then choose **New test**, **Repeat**, or **Practice weak keys** when available. The speed graph is below the results controls.
+- Review WPM and accuracy, then choose **New test**, **Repeat**. The speed graph is below the results controls.
 - Use **snd** to turn keyboard audio on or off.
 
 | Shortcut | Action |
