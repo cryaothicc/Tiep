@@ -117,18 +117,23 @@ h1::after{content:"_";animation:blink 1.1s steps(2) infinite}
   height:6.6rem;color:var(--ph-dim);outline:none;display:flex;flex-wrap:wrap;align-content:flex-start;gap:0 .55ch}
 #area.code{font-size:.95rem;line-height:1.6rem;height:8rem;display:block;white-space:pre}
 #area.unfocused{filter:blur(5px);opacity:.5}
-.l{color:var(--ph-dim)}
-.l.ok{color:var(--ph);text-shadow:var(--glow)}
+.l{color:#aaa098}
+.l.ok{color:#fff0bd;background:#3c290a}
 .l.no{color:var(--err)}
 .l.ex{color:var(--err);opacity:.55}
 .w{display:inline-block;position:relative}
 .w.bad{border-bottom:2px solid var(--err)}
 .w.blur{filter:blur(4px);opacity:.5}
 .l.blur{filter:blur(3px);opacity:.4}
-.code .h-kw{color:#ff66cc}.code .h-str{color:#ffd77a}
-.code .h-com{color:#6a5628;font-style:italic}
-.code .h-num{color:#fb923c}.code .h-pun{color:var(--ph-dim)}
-.caret{position:absolute;width:.58ch;height:1.28em;background:var(--ph);box-shadow:var(--glow);
+.code .l:not(.ok):not(.no).h-kw{color:#bc8ab1}
+.code .l:not(.ok):not(.no).h-str{color:#8fb09c}
+.code .l:not(.ok):not(.no).h-com{color:#99918a}
+.code .l:not(.ok):not(.no).h-num{color:#c4a98d}
+.code .l.whitespace{position:relative}
+.code .l.whitespace::after{content:attr(data-marker);position:absolute;left:0;color:#8d8273;pointer-events:none}
+.code .l.whitespace.ok::after{color:#fff0bd}
+.code .l.whitespace.no::after{color:var(--err)}
+.caret{position:absolute;width:2px;height:1.28em;background:var(--ph);box-shadow:var(--glow);
   animation:blink 1.1s steps(2) infinite;z-index:2}
 .typing .caret{animation:none;opacity:.85}
 .caret.bad{background:var(--err);box-shadow:0 0 6px rgba(255,77,77,.65)}
@@ -291,7 +296,7 @@ header,#hint{transition:opacity .3s}
               <div class="bar" id="content" role="group"><button data-c="words" class="on">words</button><button data-c="code">code</button></div>
               <div class="bar" id="lang" role="group" style="display:none"><button data-l="js" class="on">js</button><button data-l="py">py</button></div>
               <div class="bar" id="len" role="group"><button data-t="15">15</button><button data-t="30" class="on">30</button><button data-t="60">60</button></div>
-              <div class="bar" id="var" role="group"><button data-v="normal" class="on">normal</button><button data-v="blind">blind</button><button data-v="lock">lock</button></div>
+              <div class="bar" id="var" role="group"><button data-v="normal" class="on">normal</button><button data-v="blind">blind</button></div>
             </div>
           </header>
 
@@ -349,7 +354,7 @@ py:[`def add(a, b):\n    return a + b`,`nums = [1, 2, 3]\nfor n in nums:\n    pr
 const $=id=>document.getElementById(id);
 const area=$("area"),live=$("live");
 let mode="words",variant="normal",len=30,lang="js";
-let list=[],typed=[],wi=0,text="",typedCode="",codeSpans=[],hl=[],caret;
+let list=[],typed=[],wi=0,text="",typedCode="",codeSpans=[],caret;
 let started=false,start=0,timer=null,done=false,samples=[],keyTotal=0,errTotal=0;
 let armed=false,armT,drillNext=false;
 let keyStats=load("tiep_keys",{}),runs=load("tiep_runs",[]);
@@ -372,7 +377,7 @@ function tokenize(code,lg){
     if(/[0-9]/.test(c)){let j=i;while(j<n&&/[0-9.]/.test(code[j]))j++;push(code.slice(i,j),"num");i=j;continue}
     if(idS(c)){let j=i;while(j<n&&id(code[j]))j++;const w=code.slice(i,j);push(w,kw.has(w)?"kw":"id");i=j;continue}
     if(/[{}()\[\];,.:+\-*/<>=&|!?:%]/.test(c)){push(c,"pun");i++;continue}
-    {let j=i;while(j<n&&/\s/.test(code[j]))j++;push(code.slice(i,j),"");i=j;continue}}
+    push(c,"");i++}
   return out}
 
 /* ── panel ── */
@@ -442,7 +447,7 @@ function startPanelTick(){
 
 /* ── words engine ── */
 function renderWords(){
-  area.classList.remove("code");area.innerHTML="";
+  area.classList.remove("code");area.innerHTML="";area.scrollTop=0;
   list.forEach((w,i)=>{const s=document.createElement("span");s.className="w";s.id="w"+i;
     for(const c of w){const l=document.createElement("span");l.className="l";l.textContent=c;s.appendChild(l)}
     area.appendChild(s)});
@@ -459,14 +464,12 @@ function paint(i){
 function place(){
   const s=$("w"+wi);if(!s)return;
   if(caret.parentElement!==s)s.appendChild(caret);
-  const t=typed[wi]||"",ls=s.querySelectorAll(".l:not(.ex)");
+  const t=typed[wi]||"",ls=s.querySelectorAll(".l");
   let x=0;if(t.length>0){const l=ls[Math.min(t.length,ls.length)-1];if(l)x=l.offsetLeft+l.offsetWidth}
   caret.style.left=x+"px";caret.style.top="4px";
-  const rows=[...new Set([...area.querySelectorAll(".w")].map(e=>e.offsetTop))].sort((a,b)=>a-b);
-  if(rows.length>2&&s.offsetTop>rows[1]){
-    const first=rows[0];
-    for(let i=0;i<wi;i++){const e=$("w"+i);if(e&&e.style.display!=="none"&&e.offsetTop===first)e.style.display="none"}
-    requestAnimationFrame(place)}}
+  if(s.offsetTop<area.scrollTop||s.offsetTop+s.offsetHeight>area.scrollTop+area.clientHeight){
+    area.scrollTop=Math.max(0,s.offsetTop-s.offsetHeight);
+  }}
 function blindWords(){if(variant!=="blind")return;area.querySelectorAll(".w").forEach((e,i)=>e.classList.toggle("blur",i>wi))}
 function typeWord(ch){
   if(done)return;if(!started)begin();
@@ -478,7 +481,6 @@ function typeWord(ch){
     for(let i=wi-1;i<=wi;i++)paint(i);place();blindWords();typing();updateRegisters();
     if(wi>=list.length)finish((performance.now()-start)/1000);return}
   const prev=typed[wi]||"",k=prev.length,exp=list[wi]?list[wi][k]:"";
-  if(variant==="lock"&&ch!==exp){recordKey(exp,false);flash();logEvent(`LOCK exp:'${exp}' got:'${ch}'`,"err");return}
   typed[wi]=prev+ch;const ok=ch===exp;recordKey(exp,ok);
   if(!ok)logEvent(`TYPO wi=${wi} exp:'${exp}' got:'${ch}'`,"err");
   paint(wi);place();typing();updateRegisters()}
@@ -494,14 +496,26 @@ function calcWords(el){
 
 /* ── code engine ── */
 function renderCode(){
-  area.classList.add("code");area.innerHTML="";codeSpans=[];hl=[];
+  area.classList.add("code");area.innerHTML="";area.scrollTop=0;codeSpans=[];
   const pre=document.createElement("pre");pre.style.cssText="margin:0;font:inherit;position:relative";
   const toks=tokenize(text,lang);
-  for(const {ch,c} of toks){const s=document.createElement("span");s.className="l"+(c?" h-"+c:"");s.textContent=ch;pre.appendChild(s);codeSpans.push(s);hl.push(c)}
-  area.appendChild(pre);caret=document.createElement("span");caret.className="caret";pre.appendChild(caret);paintCode()}
+  for(const {ch,c} of toks){
+    const span=document.createElement("span");
+    span.className="l"+(c?" h-"+c:"");
+    span.textContent=ch;
+    if(ch===" "||ch==="\n"){
+      span.classList.add("whitespace");
+      span.dataset.marker=ch===" "?"·":"↵";
+    }
+    pre.appendChild(span);codeSpans.push(span);
+  }
+  area.appendChild(pre);caret=document.createElement("span");caret.className="caret";pre.appendChild(caret);paintCode();placeCode()}
 function paintCode(){
-  for(let k=0;k<codeSpans.length;k++){const s=codeSpans[k],h=hl[k]?" h-"+hl[k]:"";
-    s.className="l"+h+(k<typedCode.length?" "+(typedCode[k]===text[k]?"ok":"no"):"");}
+  codeSpans.forEach((span,index)=>{
+    const entered=index<typedCode.length;
+    span.classList.toggle("ok",entered&&typedCode[index]===text[index]);
+    span.classList.toggle("no",entered&&typedCode[index]!==text[index]);
+  });
   blindCode()}
 function blindCode(){
   if(variant!=="blind"){codeSpans.forEach(s=>s.classList.remove("blur"));return}
@@ -520,12 +534,17 @@ function typeCode(ch){
     if(ch==="\n"){typedCode+=ch;recordKey("\n",true);paintCode();placeCode();typing();updateRegisters();logEvent("↵ pos="+i);if(typedCode.length>=text.length)finish((performance.now()-start)/1000)}
     else{recordKey("\n",false);flash();logEvent("EXP:↵ got:'"+ch+"'","err")}return}
   if(ch==="\n"){recordKey(exp,false);flash();logEvent("UNEXP:↵","err");return}
-  if(variant==="lock"&&ch!==exp){recordKey(exp,false);flash();logEvent(`LOCK exp:'${exp}' got:'${ch}'`,"err");return}
   typedCode+=ch;const ok=ch===exp;recordKey(exp,ok);
   if(!ok)logEvent(`TYPO pos=${i} exp:'${exp}' got:'${ch}'`,"err");
   paintCode();placeCode();typing();updateRegisters();
   if(typedCode.length>=text.length)finish((performance.now()-start)/1000)}
-function backCode(){if(typedCode.length){typedCode=typedCode.slice(0,-1);paintCode();placeCode();logEvent("BS")}}
+function backCode(){if(typedCode.length){typedCode=typedCode.slice(0,-1);paintCode();placeCode();updateRegisters();logEvent("BS")}}
+function remainingIndent(){
+  const position=typedCode.length;
+  const lineStart=position===0?0:text.lastIndexOf("\n",position-1)+1;
+  if(!/^ *$/.test(text.slice(lineStart,position)))return 0;
+  return text.slice(position).match(/^ */)[0].length;
+}
 function calcCode(el){
   let c=0,wr=0,ex=0;for(let k=0;k<typedCode.length;k++){if(k<text.length){typedCode[k]===text[k]?c++:wr++}else ex++}
   const m=Math.max(el,1)/60;return{wpm:Math.round(c/5/m),raw:Math.round(typedCode.length/5/m),c,wr,ex}}
@@ -579,11 +598,19 @@ function draw(p=1){
 function kname(e){return e.key.length===1?e.key.toLowerCase():e.key}
 addEventListener("keydown",e=>{
   if(!e.repeat){const k=kname(e);if(keyMap[k]){keyMap[k].classList.add("dn");if(!done&&!armed&&!e.ctrlKey&&!e.metaKey&&!e.altKey)trail.push(k)}if(e.key.length===1||e.key==="Backspace"||e.key==="Enter")thock(e.key===" "||e.key==="Backspace")}
-  if(e.key==="Tab"){e.preventDefault();armed=true;clearTimeout(armT);armT=setTimeout(()=>armed=false,1500);return}
+  if(e.key==="Tab"&&!e.shiftKey&&!e.ctrlKey&&!e.metaKey&&!e.altKey){
+    e.preventDefault();
+    const indent=mode==="code"&&!done?remainingIndent():0;
+    if(indent){for(let i=0;i<indent&&!done;i++)typeCode(" ");return}
+    armed=true;clearTimeout(armT);armT=setTimeout(()=>armed=false,1500);return;
+  }
   if(armed&&(e.key==="Enter"||e.key.toLowerCase()==="r")){e.preventDefault();armed=false;reset(e.key!=="Enter");return}
   if(e.ctrlKey||e.metaKey||e.altKey)return;
   if(e.key==="Backspace"){e.preventDefault();if(!done){mode==="words"?backWord():backCode()}return}
-  if(e.key==="Enter"){e.preventDefault();if(!done&&mode==="code")typeCode("\n");return}
+  if(e.key==="Enter"){
+    if(e.target.closest("button, a"))return;
+    e.preventDefault();if(!done&&mode==="code")typeCode("\n");return;
+  }
   if(e.key.length===1){e.preventDefault();if(!done){if(document.activeElement!==area)area.focus({preventScroll:true});mode==="words"?typeWord(e.key):typeCode(e.key)}}});
 addEventListener("keyup",e=>{const k=kname(e);if(keyMap[k])keyMap[k].classList.remove("dn");if(e.key.length===1||e.key==="Backspace"||e.key==="Enter")release(e.key===" "||e.key==="Backspace")});
 area.addEventListener("click",()=>area.focus({preventScroll:true}));
@@ -608,6 +635,9 @@ function reset(keep){
   live.classList.remove("run");
   if(mode==="words"){if(drillNext){list=genDrill();drillNext=false}else if(!keep||!list.length)list=genWords(200);typed=list.map(()=>"");renderWords()}
   else{if(!keep||!text)text=genCode();typedCode="";renderCode()}
+  $("hint").textContent=mode==="code"
+    ?"· space   ↵ Enter   ·   Tab fills indentation   ·   Elsewhere: Tab then Enter or R"
+    :"Type to start · Tab then Enter for a new test · Tab then R to repeat";
   live.textContent=len;
   $("result").classList.remove("show","go");$("test").classList.remove("hide");
   for(const c in keyMap)keyMap[c].style.background="";
