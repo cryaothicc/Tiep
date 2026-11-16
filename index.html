@@ -503,9 +503,9 @@ function renderCode(){
     const span=document.createElement("span");
     span.className="l"+(c?" h-"+c:"");
     span.textContent=ch;
-    if(ch===" "||ch==="\n"){
+    if(ch==="\n"){
       span.classList.add("whitespace");
-      span.dataset.marker=ch===" "?"·":"↵";
+      span.dataset.marker="↵";
     }
     pre.appendChild(span);codeSpans.push(span);
   }
@@ -636,7 +636,7 @@ function reset(keep){
   if(mode==="words"){if(drillNext){list=genDrill();drillNext=false}else if(!keep||!list.length)list=genWords(200);typed=list.map(()=>"");renderWords()}
   else{if(!keep||!text)text=genCode();typedCode="";renderCode()}
   $("hint").textContent=mode==="code"
-    ?"· space   ↵ Enter   ·   Tab fills indentation   ·   Elsewhere: Tab then Enter or R"
+    ?"↵ Enter   ·   Tab fills indentation   ·   Elsewhere: Tab then Enter or R"
     :"Type to start · Tab then Enter for a new test · Tab then R to repeat";
   live.textContent=len;
   $("result").classList.remove("show","go");$("test").classList.remove("hide");

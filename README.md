@@ -10,7 +10,7 @@ Open `index.html` in a desktop browser and start typing. No install or build ste
 
 - Choose a 15-, 30-, or 60-second test.
 - **Normal** runs a standard test. **Blind** blurs upcoming text.
-- In code mode, dots mark spaces and ↵ marks a line break. Press Enter at ↵. Tab fills the remaining leading spaces on a line. Backspace lets you correct mistakes.
+- In code mode, ↵ marks a line break. Press Enter at ↵. Tab fills the remaining leading spaces on a line. Backspace lets you correct mistakes.
 - Review WPM, accuracy, mistakes, and the keyboard replay. Use **Drill weak keys** when available to practice the keys you miss most.
 - Use **snd** to turn key sounds on or off. Your browser may require a key press or click before playing audio.
 
