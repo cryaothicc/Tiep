@@ -1,65 +1,23 @@
 # TIEP
 
-A typing test that looks like an amber CRT terminal. Single HTML file, no build step, no dependencies.
+An amber CRT-style typing test for words and JavaScript or Python snippets.
 
-> **Status: under construction.**
-> TIEP is a work in progress. Features change often, things are unfinished, and bugs are expected. Nothing here is stable yet.
+## Run locally
 
-## Running it
+Open `index.html` in a desktop browser and start typing. No install or build step is needed. JetBrains Mono loads from Google Fonts with a system monospace fallback.
 
-Open `Type.html` in a browser. That's it.
+## Take a test
 
-- The font (JetBrains Mono) loads from Google Fonts. Offline, it falls back to your system monospace font.
-- Sound needs a first key press or click before the browser lets it play.
-- Best on a desktop browser with a physical keyboard. Mobile is not a target yet.
+- Choose a 15-, 30-, or 60-second test.
+- **Normal** runs a standard test. **Blind** blurs upcoming text. **Lock** requires the correct key before advancing.
+- Review WPM, accuracy, mistakes, and the keyboard replay. Use **Drill weak keys** when available to practice the keys you miss most.
+- Use **snd** to turn key sounds on or off. Your browser may require a key press or click before playing audio.
 
-## What works so far
+| Shortcut | Action |
+| --- | --- |
+| Tab, then Enter | Start a new test |
+| Tab, then R | Repeat the same text |
 
-**Typing**
-- Words mode and code mode (JavaScript and Python snippets)
-- 15, 30 and 60 second timed tests
-- Normal and blind variants (blind blurs the text ahead of you)
-- Untyped text is gray, correct text lights up amber, wrong text turns red
-- Focus mode: the controls fade out when you start typing and come back when you move the mouse
+TIEP saves per-key statistics, common key substitutions, and the last 50 runs in browser storage. Clear the page’s browser data to reset them.
 
-**Shortcuts**
-- `Tab` + `Enter`: new test
-- `Tab` + `R`: repeat the same text
-- `Tab` in code mode: types the indentation when the next characters are indent spaces
-
-**Feedback**
-- Left panel with live registers, a WPM chart, per-key accuracy bars and an event log
-- On-screen keyboard that presses down as you type
-- Three keyboard sounds (clack, thock, soft) plus off, cycled with the `snd` button
-- Results: WPM, raw WPM, accuracy, correct/wrong/extra counts and a WPM-over-time graph
-- Mistake breakdown: your most common key swaps, missed words and your weakest keys over time
-- Replay: after a test, the keyboard replays your typing and leaves a heatmap of the keys you used most
-- Drill mode: a practice test built from your weakest keys
-
-**Saved in your browser** (localStorage, never sent anywhere)
-- `tiep_keys`: per-key attempts and errors
-- `tiep_runs`: your last 50 runs
-- `tiep_pairs`: which wrong key you tend to type for each key
-
-Clear your site data to reset all of it.
-
-## Known rough edges
-
-- The results screen can still scroll in short windows.
-- The right Shift key on the on-screen keyboard is decorative.
-- Only a handful of code snippets exist, so they repeat quickly.
-- Key sounds are synthesized, not recorded, and haven't been tuned on real hardware.
-- No settings are remembered between visits (sound choice, mode, length).
-- Small screens are not laid out properly.
-
-## Planned
-
-- More code snippets and more languages
-- Remember settings between visits
-- A cleaner, shorter results layout
-- Better key sounds
-- A history view for past runs
-
-## Contributing
-
-It's too early for outside contributions. If you find a bug, a note about what you typed and which mode you were in helps.
+TIEP is a work in progress and works best with a physical keyboard.
