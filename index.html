@@ -48,8 +48,13 @@ html,body{min-height:100%;background:var(--bg);color:var(--ph-dim);
 .mon-dot{width:8px;height:8px;border-radius:50%;background:var(--edge);display:inline-block;margin-right:5px}
 .mon-dot.lit{background:var(--ph);box-shadow:var(--glow)}
 .mon-title{font-size:.62rem;color:var(--ph-dim);letter-spacing:.1em}
-.mon-btn{background:none;border:0;color:var(--ph-dim);font:inherit;font-size:.65rem;cursor:pointer;
-  padding:2px 6px;border-radius:3px;letter-spacing:.04em}
+.monitor-actions{display:flex;align-items:center;gap:4px}
+.mon-btn{display:inline-flex;align-items:center;justify-content:center;height:22px;
+  background:none;border:0;border-bottom:1px solid transparent;color:var(--ph-dim);
+  font:inherit;font-size:.65rem;line-height:1;cursor:pointer;padding:0 6px;border-radius:3px;
+  transition:background-color .2s,color .2s,border-color .2s}
+.mon-btn:hover{background:#2c210e}
+#panelbtn{width:25px;font-size:.86rem}
 .mon-btn:hover{color:var(--ph)}
 .mon-btn.on{color:var(--ph);border-bottom:1px solid var(--ph)}
 
@@ -67,11 +72,12 @@ html,body{min-height:100%;background:var(--bg);color:var(--ph-dim);
 /* ── Side panel ── */
 #panel{
   width:220px;min-width:220px;flex-shrink:0;
-  border-right:1px solid var(--line);
+  box-shadow:inset -1px 0 var(--line);
   display:flex;flex-direction:column;
   overflow-y:auto;overflow-x:hidden;
-  transition:width .25s,min-width .25s}
-#panel[hidden],#indentHint[hidden]{display:none}
+  transition:width .28s ease,min-width .28s ease,opacity .22s ease}
+#panel.collapsed{width:0;min-width:0;opacity:0;pointer-events:none}
+#indentHint[hidden]{display:none}
 .pblock{border-bottom:1px solid var(--line);padding:9px 11px;overflow:hidden}
 .plabel{font-size:.58rem;letter-spacing:.12em;color:var(--ph-dim);opacity:.55;margin-bottom:5px;text-transform:uppercase}
 .regs{display:grid;grid-template-columns:1fr 1fr;gap:3px 8px}
@@ -103,6 +109,8 @@ html,body{min-height:100%;background:var(--bg);color:var(--ph-dim);
 #main{flex:1;display:flex;flex-direction:column;padding:14px 18px 12px;gap:12px;min-width:0;overflow:auto}
 #main:has(#test:not(.hide)){justify-content:safe center}
 header{display:flex;justify-content:center;align-items:center}
+#main:has(#result.show) header{justify-content:flex-end}
+#main:has(#result.show) header .bars{justify-content:flex-end}
 .bars{display:flex;gap:6px;flex-wrap:wrap;align-items:center;justify-content:center}
 .bar{display:flex;gap:1px;flex-wrap:wrap}
 header .bar{padding:3px;border:1px solid var(--line);border-radius:6px;background:#100c06}
@@ -163,11 +171,11 @@ kbd{font:inherit;color:var(--ph);border-bottom:1px solid var(--ph-dim)}
 #result.go #chart{animation:rise .55s .2s cubic-bezier(.2,.7,.2,1) both}
 #result.go .acts{animation:rise .45s .45s cubic-bezier(.2,.7,.2,1) both}
 .acts{display:flex;gap:8px;flex-wrap:wrap}
+.result-shortcuts{color:#a69a88;font-size:.68rem;margin-top:-8px}
 #test{display:flex;flex-direction:column;align-items:center}
 #test>*{width:min(100%,780px)}
 #test.hide{display:none}
 header,#hint{transition:opacity .3s}
-#panel{transition:width .25s,min-width .25s,opacity .3s}
 .screen-inner.focus header:not(:focus-within),.screen-inner.focus #hint{opacity:0;pointer-events:none}
 .again{background:#191209;border:1px solid #49351d;border-radius:5px;color:#ead6b9;font:inherit;
   font-size:.75rem;padding:8px 11px;cursor:pointer}
@@ -227,9 +235,17 @@ header,#hint{transition:opacity .3s}
 
 @media (prefers-reduced-motion:reduce){
   .caret{animation:none}.key{transition:none}
+  #panel,.mon-btn{transition:none}
   #result.go *,.afill{animation:none!important;transition:none!important}}
 @media (max-width:700px){
   #panel{position:absolute;inset:0 auto 0 0;z-index:10;background:#120e08;width:min(220px,76%);min-width:0}
+  #panel.collapsed{width:min(220px,76%);transform:translateX(-100%)}
+  #panel{transition:transform .28s ease,opacity .22s ease}
+}
+@media (max-width:700px) and (prefers-reduced-motion:reduce){
+  #panel{transition:none}
+}
+@media (max-width:700px){
   #main{padding-inline:12px}
   .kb{--k:min(30px,7.5vw)}}
 </style>
@@ -248,9 +264,9 @@ header,#hint{transition:opacity .3s}
         <span class="mon-dot lit"></span>
       </div>
       <span class="mon-title">TIEP v2</span>
-      <div class="bars" style="gap:3px">
+      <div class="monitor-actions">
         <button class="mon-btn on" id="panelbtn" aria-label="Toggle diagnostics" aria-controls="panel" aria-expanded="true" title="Toggle diagnostics">&#x2630;</button>
-        <div class="bar"><button id="snd" class="on" aria-pressed="true">snd:on</button></div>
+        <button id="snd" class="mon-btn on" aria-pressed="true">snd: on</button>
       </div>
     </div>
 
@@ -312,7 +328,7 @@ header,#hint{transition:opacity .3s}
             <p id="hint">click and type &middot; <kbd>tab</kbd>+<kbd>enter</kbd> new &middot; <kbd>tab</kbd>+<kbd>r</kbd> repeat</p>
           </section>
 
-          <section id="result" aria-live="polite">
+          <section id="result" tabindex="-1" aria-label="Test results" aria-live="polite">
             <div class="stats">
               <div class="big"><div class="n" id="rWpm">0</div><div class="k">wpm</div></div>
               <div class="big"><div class="n" id="rAcc">0%</div><div class="k">accuracy</div></div>
@@ -326,6 +342,7 @@ header,#hint{transition:opacity .3s}
               <button class="again" id="rep">Repeat</button>
               <button class="again" id="drill" style="display:none">Practice weak keys</button>
             </div>
+            <p class="result-shortcuts"><kbd>Tab</kbd> then <kbd>Enter</kbd> new test · <kbd>Tab</kbd> then <kbd>R</kbd> repeat</p>
             <canvas id="chart" aria-label="Typing speed over time"></canvas>
             <p id="weak"></p>
           </section>
@@ -590,7 +607,7 @@ function finish(el){
   $("rMode").textContent=(mode==="code"?"code/"+lang:"words")+" · "+variant+" · "+len+"s";
   $("rBest").textContent="best: "+runs.reduce((m,x)=>Math.max(m,x.wpm),0)+" wpm";
   $("test").classList.add("hide");$("result").classList.add("show");
-  $("next").focus({preventScroll:true});
+  $("result").focus({preventScroll:true});
   if(!samples.length||samples[samples.length-1].t<Math.round(el))samples.push({t:Math.round(el),wpm:r.wpm,raw:r.raw});
   const res=$("result");res.classList.remove("go");void res.offsetWidth;res.classList.add("go");
   heat();buildTrail(0);replay();$("drill").style.display=weakKeys().length?"":"none";anim(draw,1000,300)}
@@ -644,17 +661,24 @@ $("content").querySelectorAll("button").forEach(b=>b.onclick=()=>{mode=b.dataset
 $("lang").querySelectorAll("button").forEach(b=>b.onclick=()=>{lang=b.dataset.l;setOn($("lang"),b);if(mode==="code")reset()});
 $("len").querySelectorAll("button").forEach(b=>b.onclick=()=>{len=+b.dataset.t;setOn($("len"),b);reset()});
 $("var").querySelectorAll("button").forEach(b=>b.onclick=()=>{variant=b.dataset.v;setOn($("var"),b);reset()});
-$("snd").onclick=function(){sound=!sound;this.textContent="snd:"+(sound?"on":"off");this.classList.toggle("on",sound);this.setAttribute("aria-pressed",sound)};
+$("snd").onclick=function(){sound=!sound;this.textContent="snd: "+(sound?"on":"off");this.classList.toggle("on",sound);this.setAttribute("aria-pressed",sound)};
 $("next").onclick=()=>reset(false);$("rep").onclick=()=>reset(true);
 $("drill").onclick=()=>{drillNext=true;mode="words";$("lang").style.display="none";setOn($("content"),$("content").firstElementChild);reset(false)};
 $("panelbtn").onclick=function(){
   const panel=$("panel");
-  panel.hidden=!panel.hidden;
-  this.classList.toggle("on",!panel.hidden);
-  this.setAttribute("aria-expanded",String(!panel.hidden));
+  const collapsed=panel.classList.toggle("collapsed");
+  panel.inert=collapsed;
+  this.classList.toggle("on",!collapsed);
+  this.setAttribute("aria-expanded",String(!collapsed));
   updateMiniChart();
   if(mode==="code"&&!done)placeCode();
 };
+$("panel").addEventListener("transitionend",event=>{
+  if(event.target!==$("panel")||event.propertyName!=="width")return;
+  if(done)draw();
+  else if(mode==="code")placeCode();
+  else place();
+});
 
 /* ── reset ── */
 function reset(keep){
