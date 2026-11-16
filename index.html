@@ -71,7 +71,7 @@ html,body{min-height:100%;background:var(--bg);color:var(--ph-dim);
   display:flex;flex-direction:column;
   overflow-y:auto;overflow-x:hidden;
   transition:width .25s,min-width .25s}
-#panel[hidden],.desk-kb[hidden],#indentHint[hidden]{display:none}
+#panel[hidden],#indentHint[hidden]{display:none}
 .pblock{border-bottom:1px solid var(--line);padding:9px 11px;overflow:hidden}
 .plabel{font-size:.58rem;letter-spacing:.12em;color:var(--ph-dim);opacity:.55;margin-bottom:5px;text-transform:uppercase}
 .regs{display:grid;grid-template-columns:1fr 1fr;gap:3px 8px}
@@ -173,7 +173,6 @@ header,#hint{transition:opacity .3s}
   font-size:.75rem;padding:8px 11px;cursor:pointer}
 .again:hover{border-color:var(--ph)}
 #next{background:#30200a;color:var(--ph)}
-#replaySlot .desk-kb{margin:0 0 12px;width:100%;min-height:0}
 .again kbd{border:0;color:var(--ph-dim);font-size:.62rem}
 #weak{font-size:.68rem;color:var(--ph-dim);text-align:center;margin:10px 0 0}
 
@@ -250,7 +249,7 @@ header,#hint{transition:opacity .3s}
       </div>
       <span class="mon-title">TIEP v2</span>
       <div class="bars" style="gap:3px">
-        <button class="mon-btn" id="panelbtn" aria-controls="panel" aria-expanded="false">Stats</button>
+        <button class="mon-btn on" id="panelbtn" aria-label="Toggle diagnostics" aria-controls="panel" aria-expanded="true" title="Toggle diagnostics">&#x2630;</button>
         <div class="bar"><button id="snd" class="on" aria-pressed="true">snd:on</button></div>
       </div>
     </div>
@@ -261,7 +260,7 @@ header,#hint{transition:opacity .3s}
       <div class="screen-inner">
 
         <!-- side panel -->
-        <aside id="panel" hidden>
+        <aside id="panel">
           <div class="pblock">
             <div class="plabel">registers</div>
             <div class="regs">
@@ -329,7 +328,6 @@ header,#hint{transition:opacity .3s}
             </div>
             <canvas id="chart" aria-label="Typing speed over time"></canvas>
             <p id="weak"></p>
-            <div id="replaySlot"></div>
           </section>
         </main>
 
@@ -346,7 +344,7 @@ header,#hint{transition:opacity .3s}
   </div>
 
   <!-- ══ KEYBOARD (outside monitor) ══ -->
-  <div class="desk-kb" id="keyboard" hidden>
+  <div class="desk-kb" id="keyboard">
     <div class="kbw" aria-hidden="true"><div class="kb" id="kb"></div></div>
     <div class="kb-plate" id="kb-plate"></div>
   </div>
@@ -592,7 +590,6 @@ function finish(el){
   $("rMode").textContent=(mode==="code"?"code/"+lang:"words")+" · "+variant+" · "+len+"s";
   $("rBest").textContent="best: "+runs.reduce((m,x)=>Math.max(m,x.wpm),0)+" wpm";
   $("test").classList.add("hide");$("result").classList.add("show");
-  updateKeyboard();
   $("next").focus({preventScroll:true});
   if(!samples.length||samples[samples.length-1].t<Math.round(el))samples.push({t:Math.round(el),wpm:r.wpm,raw:r.raw});
   const res=$("result");res.classList.remove("go");void res.offsetWidth;res.classList.add("go");
@@ -650,19 +647,11 @@ $("var").querySelectorAll("button").forEach(b=>b.onclick=()=>{variant=b.dataset.
 $("snd").onclick=function(){sound=!sound;this.textContent="snd:"+(sound?"on":"off");this.classList.toggle("on",sound);this.setAttribute("aria-pressed",sound)};
 $("next").onclick=()=>reset(false);$("rep").onclick=()=>reset(true);
 $("drill").onclick=()=>{drillNext=true;mode="words";$("lang").style.display="none";setOn($("content"),$("content").firstElementChild);reset(false)};
-function updateKeyboard(){
-  const keyboard=$("keyboard");
-  const container=done?$("replaySlot"):document.querySelector(".desk");
-  if(keyboard.parentElement!==container)container.appendChild(keyboard);
-  keyboard.hidden=!done&&$("panel").hidden;
-  if(!keyboard.hidden)$("kb-plate").style.width=$("kb").offsetWidth+"px";
-}
 $("panelbtn").onclick=function(){
   const panel=$("panel");
   panel.hidden=!panel.hidden;
   this.classList.toggle("on",!panel.hidden);
   this.setAttribute("aria-expanded",String(!panel.hidden));
-  updateKeyboard();
   updateMiniChart();
   if(mode==="code"&&!done)placeCode();
 };
@@ -680,7 +669,6 @@ function reset(keep){
     :"Type to start · Tab then Enter for a new test · Tab then R to repeat";
   live.textContent=len;
   $("result").classList.remove("show","go");$("test").classList.remove("hide");
-  updateKeyboard();
   $("main").scrollTop=0;
   for(const c in keyMap)keyMap[c].style.background="";
   $("weak").textContent="";area.classList.remove("unfocused");area.focus({preventScroll:true});
@@ -741,7 +729,9 @@ function thockOld(deep){
   og.gain.setValueAtTime(.55,t);og.gain.exponentialRampToValueAtTime(.001,t+.16);o.connect(og).connect(ac.destination);o.start(t);o.stop(t+.17);
   const n=ac.createBufferSource();n.buffer=nbuf;const f=ac.createBiquadFilter();f.type="bandpass";f.frequency.value=1400*j*m;f.Q.value=.9;
   const ng=ac.createGain();ng.gain.setValueAtTime(.3,t);ng.gain.exponentialRampToValueAtTime(.001,t+.04);n.connect(f).connect(ng).connect(ac.destination);n.start(t)}
-addEventListener("resize",()=>{updateKeyboard();if(done){draw();buildTrail(1)}else if(mode==="words")place();else placeCode();updateMiniChart()});
+function sizeKeyboardPlate(){$("kb-plate").style.width=$("kb").offsetWidth+"px"}
+requestAnimationFrame(sizeKeyboardPlate);
+addEventListener("resize",()=>{sizeKeyboardPlate();if(done){draw();buildTrail(1)}else if(mode==="words")place();else placeCode();updateMiniChart()});
 for(const id of ["content","len","var","lang"])setOn($(id),$(id).querySelector(".on"));
 reset();
 </script>

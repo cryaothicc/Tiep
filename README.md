@@ -11,8 +11,8 @@ Open `index.html` in a desktop browser and start typing. No install or build ste
 - Choose a 15-, 30-, or 60-second test.
 - **Normal** runs a standard test. **Blind** blurs upcoming text.
 - In code mode, the active line is highlighted. ↵ appears when Enter is next, and an indentation hint appears when Tab can fill leading spaces.
-- Open **Stats** to see the diagnostic panel and on-screen keyboard during a test.
-- Review WPM and accuracy, then choose **New test**, **Repeat**, or **Practice weak keys** when available. The graph and keyboard replay are below the results controls.
+- Use the hamburger button to show or hide diagnostics. The keyboard stays below the monitor and replays your keystrokes after the test.
+- Review WPM and accuracy, then choose **New test**, **Repeat**, or **Practice weak keys** when available. The speed graph is below the results controls.
 - Use **snd** to turn key sounds on or off. Your browser may require a key press or click before playing audio.
 
 | Shortcut | Action |
