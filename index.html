@@ -22,12 +22,12 @@ html,body{min-height:100%;background:var(--bg);color:var(--ph-dim);
 .desk{
   min-height:100dvh;
   display:flex;flex-direction:column;align-items:center;
-  justify-content:center;gap:24px;padding:24px 16px 22px;
+  justify-content:center;gap:16px;padding:12px 16px;
   background:radial-gradient(ellipse at 50% 24%,#242726,var(--bg) 72%)}
 
 /* ── Monitor ── */
 .monitor{
-  width:min(1060px,100%);height:clamp(450px,53dvh,610px);
+  width:min(1180px,100%);height:clamp(480px,calc(100dvh - 270px),740px);
   padding:7px;border-radius:12px;
   border:1px solid transparent;
   background:linear-gradient(135deg,#292c2b,#171918 48%,#222524) padding-box,
@@ -73,16 +73,16 @@ html,body{min-height:100%;background:var(--bg);color:var(--ph-dim);
   transition:width .28s ease,min-width .28s ease,opacity .22s ease}
 #panel.collapsed{width:0;min-width:0;opacity:0;pointer-events:none}
 #indentHint[hidden]{display:none}
-.pblock{border-bottom:1px solid var(--line);padding:9px 11px;flex-shrink:0}
-#panel>.pblock:nth-child(3){flex:1 1 auto;min-height:44px;max-height:88px;overflow:auto}
-.logblock{flex:0 0 110px;display:flex;flex-direction:column;min-height:110px;border-bottom:0}
+.pblock{border-bottom:1px solid var(--line);padding:4px 11px;flex-shrink:0}
+#panel>.pblock:nth-child(3){flex:0 0 auto}
+.logblock{flex:1 0 86px;display:flex;flex-direction:column;min-height:86px;border-bottom:0}
 .plabel{font-size:.58rem;letter-spacing:.12em;color:var(--ph-dim);opacity:.55;margin-bottom:5px;text-transform:uppercase}
 .regs{display:grid;grid-template-columns:1fr 1fr;gap:3px 8px}
 .reg{font-size:.65rem;white-space:nowrap;overflow:hidden}
 .reg .rk{color:var(--ph-dim);opacity:.65}
 .reg .rv{color:var(--ph);text-shadow:var(--glow)}
 .reg.flash .rv{color:#fff;text-shadow:0 0 8px #fff}
-#minichart{width:100%;height:44px;display:block}
+#minichart{width:100%;height:32px;display:block}
 #accbars{display:flex;flex-direction:column;gap:3px;overflow:hidden}
 .abar{display:flex;align-items:center;gap:5px;font-size:.6rem}
 .abar .ak{width:9px;color:var(--ph-dim);flex-shrink:0}
@@ -90,8 +90,8 @@ html,body{min-height:100%;background:var(--bg);color:var(--ph-dim);
 .abar .afill{height:100%;background:var(--ph);border-radius:2px;transition:width .3s}
 .abar .afill.bad{background:var(--err)}
 .abar .apct{width:24px;text-align:right;color:var(--ph-dim);font-size:.56rem}
-#log{height:74px;min-height:74px;overflow:auto;padding:3px 0;display:flex;flex-direction:column;gap:4px;scrollbar-width:thin}
-.logline{flex-shrink:0;font-size:.65rem;line-height:1.55;overflow-wrap:anywhere;animation:logfade .15s ease}
+#log{min-height:58px;padding:3px 0;display:flex;flex-direction:column;gap:4px}
+.logline{flex-shrink:0;font-size:.65rem;line-height:1.55;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;animation:logfade .15s ease}
 .logline .lt{color:var(--ph-dim);margin-right:3px;opacity:.7}
 .logline .lm{color:var(--ph)}
 .logline .lm.err{color:var(--err)}
@@ -127,7 +127,8 @@ header .bar button.on{color:var(--ph);background:#343936;text-shadow:none}
 .code-line{position:absolute;left:0;right:0;height:1lh;background:#ffffff08;
   z-index:-1;pointer-events:none}
 #area.unfocused{filter:blur(5px);opacity:.5}
-.l{color:#edf0f2}
+.l{color:#8b918e}
+.l.ok{color:#f2f4ef}
 .l.no,.l.ex{color:var(--err);background:#f3616c26;border-radius:2px}
 .w{display:inline-block;position:relative}
 .w.blur{filter:blur(4px);opacity:.5}
@@ -143,13 +144,13 @@ header .bar button.on{color:var(--ph);background:#343936;text-shadow:none}
 #indentHint{color:var(--ph-dim);font-size:.72rem;margin-top:8px}
 kbd{font:inherit;color:var(--ph);border-bottom:1px solid var(--ph-dim)}
 /* result */
-#result{display:none;flex-direction:column;gap:16px;width:min(100%,780px);margin:auto;text-align:center;outline:none}
+#result{display:none;flex-direction:column;gap:16px;width:100%;margin:auto 0;text-align:left;outline:none}
 #result.show{display:flex}
-.stats{display:flex;gap:clamp(16px,4vw,36px);flex-wrap:wrap;align-items:flex-end;justify-content:center}
+.stats{display:flex;gap:clamp(16px,4vw,36px);flex-wrap:wrap;align-items:flex-end;justify-content:flex-start}
 .n{color:#edf0f2;line-height:1;font-weight:400}
 .big .n{font-size:3rem}.sm .n{font-size:1.3rem}
 .big .k,.sm .k{font-size:.68rem;margin-top:6px;color:var(--ph-dim)}
-.meta{display:flex;gap:14px;font-size:.68rem;color:var(--ph-dim);flex-wrap:wrap;justify-content:center}
+.meta{display:flex;gap:14px;font-size:.68rem;color:var(--ph-dim);flex-wrap:wrap;justify-content:flex-start}
 #chart{width:100%;height:160px}
 @keyframes rise{from{opacity:0;transform:translateY(10px)}}
 #result.go .stats>div{animation:rise .45s cubic-bezier(.2,.7,.2,1) both}
@@ -159,7 +160,7 @@ kbd{font:inherit;color:var(--ph);border-bottom:1px solid var(--ph-dim)}
 #result.go .stats>div:nth-child(5){animation-delay:.24s}
 #result.go #chart{animation:rise .55s .2s cubic-bezier(.2,.7,.2,1) both}
 #result.go .acts{animation:rise .45s .45s cubic-bezier(.2,.7,.2,1) both}
-.acts{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.acts{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-start}
 .result-shortcuts{color:var(--ph-dim);font-size:.68rem;margin-top:-8px}
 #test{display:flex;flex-direction:column;align-items:center}
 #test>*{width:min(100%,780px)}
@@ -171,13 +172,14 @@ header,#hint{transition:opacity .3s}
 .again:hover{border-color:var(--ph)}
 #next{background:#343b36;color:var(--ph)}
 .again kbd{border:0;color:var(--ph-dim);font-size:.62rem}
-#weak{font-size:.68rem;color:var(--ph-dim);text-align:center;margin:10px 0 0}
+#weak{font-size:.65rem;color:var(--ph-dim);text-align:right;height:16px;margin-top:8px}
+.keyboard-wrap{width:min(720px,100%)}
 
 /* ════════════════════════════════
    KEYBOARD — outside the monitor
    ════════════════════════════════ */
 .desk-kb{
-  width:min(850px,100%);padding:clamp(9px,1.6vw,17px) clamp(9px,1.6vw,17px) clamp(12px,2vw,21px);
+  width:100%;padding:11px 12px 13px;
   border-radius:18px;background:#090a0a;border:1px solid #252826;
   box-shadow:inset 0 1px #ffffff0a,0 5px 0 #070808,0 18px 28px #0005;
 }
@@ -186,8 +188,8 @@ header,#hint{transition:opacity .3s}
 .kr{display:flex;gap:2px}
 .key{
   --cap:#d5d4ce;--cap-shine:#e7e6e0;--cap-text:#444943;--cap-base:#aaa9a3;--cap-shadow:#777a74;
-  --cap-depth:clamp(5px,1.3vw,13px);--cap-bevel:clamp(3px,.7vw,7px);
-  flex:var(--units,1) 1 0;min-width:0;height:clamp(25px,5.7vw,48px);
+  --cap-depth:clamp(4px,.85vw,8px);--cap-bevel:clamp(3px,.6vw,6px);
+  flex:var(--units,1) 1 0;min-width:0;height:clamp(20px,3.1dvh,32px);
   position:relative;isolation:isolate;color:var(--cap-text);
   background:var(--cap-base);border-radius:6px;box-shadow:inset 0 -2px #0003,0 1px 1px #000;overflow:hidden;
   font-size:clamp(.42rem,1.05vw,.72rem);white-space:nowrap;
@@ -203,8 +205,8 @@ header,#hint{transition:opacity .3s}
   clip-path:polygon(0 0,100% 0,100% 100%,0 calc(100% - var(--cap-depth)))}
 .key-face{
   position:absolute;z-index:1;inset:1px var(--cap-bevel) var(--cap-depth);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;overflow:hidden;border-radius:clamp(3px,.65vw,6px);
-  font-family:Arial,sans-serif;font-size:clamp(5px,1vw,9px);line-height:1.1;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;overflow:hidden;border-radius:clamp(3px,.65vw,6px);
+  font-family:Arial,sans-serif;font-size:clamp(5px,.95dvh,9px);line-height:1.1;
   background:linear-gradient(100deg,var(--cap-shine),var(--cap) 22%,var(--cap) 78%,var(--cap-shine));
   border:1px solid #0003;box-shadow:inset 0 1px #ffffff40,0 1px 1px #0005;
 }
@@ -332,7 +334,6 @@ header,#hint{transition:opacity .3s}
             </div>
             <p class="result-shortcuts"><kbd>Tab</kbd> then <kbd>Enter</kbd> new test · <kbd>Tab</kbd> then <kbd>R</kbd> repeat</p>
             <canvas id="chart" aria-label="Typing speed over time"></canvas>
-            <p id="weak"></p>
           </section>
         </main>
 
@@ -342,8 +343,11 @@ header,#hint{transition:opacity .3s}
   </div><!-- /monitor -->
 
   <!-- ══ KEYBOARD (outside monitor) ══ -->
+  <div class="keyboard-wrap">
   <div class="desk-kb" id="keyboard">
     <div class="kbw" aria-hidden="true"><div class="kb" id="kb"></div></div>
+  </div>
+  <p id="weak"></p>
   </div>
 
 </div><!-- /desk -->
@@ -400,13 +404,13 @@ function tokenize(code,lg){
 
 /* ── panel ── */
 const miniCtx=$("minichart").getContext("2d");
-const miniSamples=[];const LOG_MAX=10;
+const miniSamples=[];const LOG_MAX=3;
 function ts(){const e=started?(performance.now()-start)/1000:0;return started?"["+e.toFixed(1)+"]":"[--]"}
 function logEvent(msg,cls=""){
   const line=document.createElement("div");line.className="logline";
   const t=document.createElement("span");t.className="lt";t.textContent=ts();
   const m=document.createElement("span");m.className="lm"+(cls?" "+cls:"");m.textContent=msg;
-  line.appendChild(t);line.appendChild(m);
+  line.appendChild(t);line.appendChild(m);line.title=t.textContent+" "+msg;
   const log=$("log");log.appendChild(line);
   while(log.children.length>LOG_MAX)log.removeChild(log.firstChild);
   log.scrollTop=log.scrollHeight}
@@ -425,7 +429,7 @@ function updateRegisters(){
   setReg("st",done?"DONE":started?"RUN":"IDLE")}
 function updateMiniChart(){
   const c=$("minichart"),dpr=devicePixelRatio||1;
-  const W=c.parentElement.clientWidth-22,H=44;
+  const W=c.parentElement.clientWidth-22,H=32;
   c.width=W*dpr;c.height=H*dpr;c.style.width=W+"px";c.style.height=H+"px";
   miniCtx.scale(dpr,dpr);miniCtx.clearRect(0,0,W,H);
   if(miniSamples.length<2)return;
@@ -477,7 +481,7 @@ function paint(i){
   const s=$("w"+i);if(!s)return;const w=list[i],t=typed[i];
   s.querySelectorAll(".ex").forEach(e=>e.remove());
   const ls=s.querySelectorAll(".l:not(.ex)");
-  ls.forEach((l,k)=>{l.className="l"+((k<t.length&&t[k]!==w[k])||(i<wi&&k>=t.length)?" no":"")});
+  ls.forEach((l,k)=>{l.className="l"+((k<t.length&&t[k]!==w[k])||(i<wi&&k>=t.length)?" no":k<t.length?" ok":"")});
   for(let k=w.length;k<t.length;k++){const l=document.createElement("span");l.className="l ex";l.textContent=t[k];s.appendChild(l)}
 }
 function place(){
@@ -610,7 +614,7 @@ function finish(el){
 function heat(){
   let mx=0.12;for(const c in keyMap){const s=keyStats[c];if(s&&s.t)mx=Math.max(mx,s.e/s.t)}
   for(const c in keyMap){const el=keyMap[c],s=keyStats[el.dataset.character];el.style.setProperty("--heat",s&&s.t>=3?Math.min(.65,(s.e/s.t)/mx*.65):0)}
-  const wk=weakKeys();$("weak").textContent=wk.length?"weakest: "+wk.join("  "):"type more tests to reveal weak keys"}
+  const wk=weakKeys();$("weak").textContent=wk.length?"Practice keys · "+wk.join("  "):""}
 function draw(p=1){
   const c=$("chart"),d=devicePixelRatio||1,w=c.clientWidth,h=c.clientHeight;c.width=w*d;c.height=h*d;
   const g=c.getContext("2d");g.scale(d,d);g.clearRect(0,0,w,h);
