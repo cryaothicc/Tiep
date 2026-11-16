@@ -12,6 +12,12 @@ const TiepSound = (() => {
   const samples = new Map();
   const voices = new Set();
   let currentPack = null;
+  const importedPacks = new Map();
+
+  function select(id) {
+    mute();
+    currentPack = importedPacks.get(id) || null;
+  }
 
   function stop(voice) {
     clearTimeout(voice.timer);
@@ -80,13 +86,11 @@ const TiepSound = (() => {
     }
     if (!fallback) throw new Error("The folder has no matching audio samples.");
     mute();
-    for (const url of currentPack?.urls.values() || []) {
-      samples.delete(url);
-      URL.revokeObjectURL(url);
-    }
     currentPack = { definitions, fallback, urls };
-    return typeof config.name === "string" ? config.name : "Local sound pack";
+    const id = "pack-" + importedPacks.size;
+    importedPacks.set(id, currentPack);
+    return { id, name: typeof config.name === "string" ? config.name : "Local sound pack" };
   }
 
-  return { play, mute, importFolder };
+  return { play, mute, importFolder, select };
 })();

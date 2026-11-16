@@ -7,8 +7,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&display=swap">
 <style>
 :root{
-  --bg:#121117;--ph:#cbb4f3;--ph-dim:#b7afc0;--ph-faint:#312b3c;--err:#ff888e;--line:#38333f;--edge:#4c4457;
-  --bezel:#1d1a23;
+  --bg:#101112;--ph:#e1dfd8;--ph-dim:#a5a6a4;--ph-faint:#303231;--err:#ff888e;--line:#303332;--edge:#454947;
+  --bezel:#1c1e1d;
   --glow:none;color-scheme:dark
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -23,16 +23,16 @@ html,body{min-height:100%;background:var(--bg);color:var(--ph-dim);
   min-height:100dvh;
   display:flex;flex-direction:column;align-items:center;
   justify-content:center;gap:24px;padding:24px 16px 22px;
-  background:radial-gradient(ellipse at 50% 24%,#292331,var(--bg) 72%)}
+  background:radial-gradient(ellipse at 50% 24%,#242726,var(--bg) 72%)}
 
 /* ── Monitor ── */
 .monitor{
-  width:min(990px,100%);height:clamp(360px,55dvh,610px);
-  border-radius:7px;
+  width:min(1060px,100%);height:clamp(450px,53dvh,610px);
+  padding:7px;border-radius:12px;
   border:1px solid transparent;
-  background:linear-gradient(#22202a,#17151c) padding-box,
-    linear-gradient(125deg,#d9c6f5 0%,#726382 18%,#3d3648 50%,#827093 83%,#d2bcf2 100%) border-box;
-  box-shadow:inset 0 0 0 1px #ffffff0c,0 14px 48px #07060a86;
+  background:linear-gradient(135deg,#292c2b,#171918 48%,#222524) padding-box,
+    linear-gradient(125deg,#939994 0%,#404643 24%,#252826 65%,#707872 100%) border-box;
+  box-shadow:inset 0 0 0 1px #ffffff06,0 20px 55px #0006;
   overflow:hidden;
   display:flex;flex-direction:column;
   flex:none;min-height:0}
@@ -40,7 +40,7 @@ html,body{min-height:100%;background:var(--bg);color:var(--ph-dim);
 /* monitor top bar */
 .mon-top{
   min-height:38px;display:flex;align-items:center;justify-content:space-between;
-  padding:0 14px;border-bottom:1px solid var(--edge)}
+  padding:0 12px;border-bottom:1px solid var(--line)}
 .mon-dot{width:8px;height:8px;border-radius:50%;background:var(--edge);display:inline-block;margin-right:5px}
 .mon-dot.lit{background:var(--ph);box-shadow:var(--glow)}
 .mon-title{font-size:.62rem;color:var(--ph-dim);letter-spacing:.1em}
@@ -49,7 +49,7 @@ html,body{min-height:100%;background:var(--bg);color:var(--ph-dim);
   background:none;border:0;border-bottom:1px solid transparent;color:var(--ph-dim);
   font:inherit;font-size:.65rem;line-height:1;cursor:pointer;padding:0 6px;border-radius:3px;
   transition:background-color .2s,color .2s,border-color .2s}
-.mon-btn:hover{background:#393045}
+.mon-btn:hover{background:#323634}
 #panelbtn{width:25px;font-size:.86rem}
 .mon-btn:hover{color:var(--ph)}
 .mon-btn.on{color:var(--ph);border-bottom:1px solid var(--ph)}
@@ -57,7 +57,7 @@ html,body{min-height:100%;background:var(--bg);color:var(--ph-dim);
 /* screen glass */
 .screen{
   position:relative;
-  background:linear-gradient(120deg,#dbcbef09,transparent 42%),#19171e;
+  background:linear-gradient(120deg,#ffffff03,transparent 45%),#181b1a;
   overflow:hidden;
   flex:1;min-height:0}
 
@@ -73,7 +73,9 @@ html,body{min-height:100%;background:var(--bg);color:var(--ph-dim);
   transition:width .28s ease,min-width .28s ease,opacity .22s ease}
 #panel.collapsed{width:0;min-width:0;opacity:0;pointer-events:none}
 #indentHint[hidden]{display:none}
-.pblock{border-bottom:1px solid var(--line);padding:9px 11px;overflow:hidden}
+.pblock{border-bottom:1px solid var(--line);padding:9px 11px;flex-shrink:0}
+#panel>.pblock:nth-child(3){flex:1 1 auto;min-height:44px;max-height:88px;overflow:auto}
+.logblock{flex:0 0 110px;display:flex;flex-direction:column;min-height:110px;border-bottom:0}
 .plabel{font-size:.58rem;letter-spacing:.12em;color:var(--ph-dim);opacity:.55;margin-bottom:5px;text-transform:uppercase}
 .regs{display:grid;grid-template-columns:1fr 1fr;gap:3px 8px}
 .reg{font-size:.65rem;white-space:nowrap;overflow:hidden}
@@ -88,8 +90,8 @@ html,body{min-height:100%;background:var(--bg);color:var(--ph-dim);
 .abar .afill{height:100%;background:var(--ph);border-radius:2px;transition:width .3s}
 .abar .afill.bad{background:var(--err)}
 .abar .apct{width:24px;text-align:right;color:var(--ph-dim);font-size:.56rem}
-#log{height:calc(1.45em * 10);overflow:hidden;padding:7px 11px;display:flex;flex-direction:column;gap:2px}
-.logline{font-size:.58rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;animation:logfade .15s ease}
+#log{height:74px;min-height:74px;overflow:auto;padding:3px 0;display:flex;flex-direction:column;gap:4px;scrollbar-width:thin}
+.logline{flex-shrink:0;font-size:.65rem;line-height:1.55;overflow-wrap:anywhere;animation:logfade .15s ease}
 .logline .lt{color:var(--ph-dim);margin-right:3px;opacity:.7}
 .logline .lm{color:var(--ph)}
 .logline .lm.err{color:var(--err)}
@@ -107,20 +109,20 @@ header{display:flex;justify-content:center;align-items:center}
 #main:has(#result.show) header{display:none}
 .bars{display:flex;gap:6px;flex-wrap:wrap;align-items:center;justify-content:center}
 .bar{display:flex;gap:1px;flex-wrap:wrap}
-header .bar{padding:3px;border:1px solid var(--line);border-radius:6px;background:#221f29}
+header .bar{padding:3px;border:1px solid var(--line);border-radius:6px;background:#202321}
 .bar button,.togbtn{background:none;border:0;color:var(--ph-dim);font:inherit;font-size:.72rem;
   padding:4px 8px;cursor:pointer;border-radius:3px}
 .bar button:hover,.togbtn:hover{color:var(--ph)}
 .bar button.on,.togbtn.on{color:var(--ph);text-shadow:var(--glow);border-bottom:1px solid var(--ph)}
 header .bar button{color:#bac5cb;border-bottom:1px solid transparent}
-header .bar button.on{color:var(--ph);background:#3a2e48;text-shadow:none}
+header .bar button.on{color:var(--ph);background:#343936;text-shadow:none}
 :focus-visible{outline:1px solid var(--ph);outline-offset:3px}
 #live{font-size:1rem;color:var(--ph);text-shadow:var(--glow);height:1.4rem;visibility:hidden}
 #live.run{visibility:visible}
 #area{position:relative;overflow:hidden;user-select:none;cursor:text;font-size:1.35rem;line-height:2.2rem;
   height:6.6rem;color:var(--ph-dim);outline:none;display:flex;flex-wrap:wrap;align-content:flex-start;gap:0 .55ch}
 #area.code{font-size:clamp(.9rem,2vw,1.1rem);line-height:1.8rem;height:clamp(9rem,34vh,16rem);
-  display:block;white-space:pre;text-align:left;background:#15131b;border:1px solid var(--line);border-radius:6px}
+  display:block;white-space:pre;text-align:left;background:#141715;border:1px solid var(--line);border-radius:6px}
 #area.code pre{position:relative;isolation:isolate;min-width:max-content;padding:.5rem .85rem}
 .code-line{position:absolute;left:0;right:0;height:1lh;background:#ffffff08;
   z-index:-1;pointer-events:none}
@@ -141,13 +143,13 @@ header .bar button.on{color:var(--ph);background:#3a2e48;text-shadow:none}
 #indentHint{color:var(--ph-dim);font-size:.72rem;margin-top:8px}
 kbd{font:inherit;color:var(--ph);border-bottom:1px solid var(--ph-dim)}
 /* result */
-#result{display:none;flex-direction:column;gap:16px;width:min(100%,780px);margin:0 auto}
+#result{display:none;flex-direction:column;gap:16px;width:min(100%,780px);margin:auto;text-align:center;outline:none}
 #result.show{display:flex}
-.stats{display:flex;gap:clamp(16px,4vw,36px);flex-wrap:wrap;align-items:flex-end}
+.stats{display:flex;gap:clamp(16px,4vw,36px);flex-wrap:wrap;align-items:flex-end;justify-content:center}
 .n{color:#edf0f2;line-height:1;font-weight:400}
 .big .n{font-size:3rem}.sm .n{font-size:1.3rem}
 .big .k,.sm .k{font-size:.68rem;margin-top:6px;color:var(--ph-dim)}
-.meta{display:flex;gap:14px;font-size:.68rem;color:var(--ph-dim);flex-wrap:wrap}
+.meta{display:flex;gap:14px;font-size:.68rem;color:var(--ph-dim);flex-wrap:wrap;justify-content:center}
 #chart{width:100%;height:160px}
 @keyframes rise{from{opacity:0;transform:translateY(10px)}}
 #result.go .stats>div{animation:rise .45s cubic-bezier(.2,.7,.2,1) both}
@@ -157,17 +159,17 @@ kbd{font:inherit;color:var(--ph);border-bottom:1px solid var(--ph-dim)}
 #result.go .stats>div:nth-child(5){animation-delay:.24s}
 #result.go #chart{animation:rise .55s .2s cubic-bezier(.2,.7,.2,1) both}
 #result.go .acts{animation:rise .45s .45s cubic-bezier(.2,.7,.2,1) both}
-.acts{display:flex;gap:8px;flex-wrap:wrap}
+.acts{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
 .result-shortcuts{color:var(--ph-dim);font-size:.68rem;margin-top:-8px}
 #test{display:flex;flex-direction:column;align-items:center}
 #test>*{width:min(100%,780px)}
 #test.hide{display:none}
 header,#hint{transition:opacity .3s}
 .screen-inner.focus header:not(:focus-within),.screen-inner.focus #hint{opacity:0;pointer-events:none}
-.again{background:#282331;border:1px solid var(--edge);border-radius:5px;color:#edf0f2;font:inherit;
+.again{background:#252a27;border:1px solid var(--edge);border-radius:5px;color:#edf0f2;font:inherit;
   font-size:.75rem;padding:8px 11px;cursor:pointer}
 .again:hover{border-color:var(--ph)}
-#next{background:#3a2e48;color:var(--ph)}
+#next{background:#343b36;color:var(--ph)}
 .again kbd{border:0;color:var(--ph-dim);font-size:.62rem}
 #weak{font-size:.68rem;color:var(--ph-dim);text-align:center;margin:10px 0 0}
 
@@ -175,50 +177,61 @@ header,#hint{transition:opacity .3s}
    KEYBOARD — outside the monitor
    ════════════════════════════════ */
 .desk-kb{
-  width:min(790px,100%);padding:clamp(7px,1.35vw,14px);
-  border-radius:11px;background:#0f0e14;border:1px solid #393341;
-  box-shadow:inset 0 1px #ffffff12,0 6px 0 #0b0a0f,0 16px 30px #08070c80;
+  width:min(850px,100%);padding:clamp(9px,1.6vw,17px) clamp(9px,1.6vw,17px) clamp(12px,2vw,21px);
+  border-radius:18px;background:#090a0a;border:1px solid #252826;
+  box-shadow:inset 0 1px #ffffff0a,0 5px 0 #070808,0 18px 28px #0005;
 }
 .kbw{width:100%}
-.kb{display:flex;flex-direction:column;gap:clamp(2px,.55vw,5px)}
-.kr{display:flex;gap:clamp(2px,.55vw,5px)}
+.kb{display:flex;flex-direction:column;gap:2px}
+.kr{display:flex;gap:2px}
 .key{
-  --cap:#ddd5cb;--cap-shine:#f0e9df;--cap-text:#302a32;--cap-base:#a39a9c;--cap-shadow:#696171;
-  --cap-depth:clamp(4px,.8vw,9px);--cap-bevel:clamp(2px,.52vw,6px);
-  flex:var(--units,1) 1 0;min-width:0;height:clamp(20px,4.6vw,45px);
+  --cap:#d5d4ce;--cap-shine:#e7e6e0;--cap-text:#444943;--cap-base:#aaa9a3;--cap-shadow:#777a74;
+  --cap-depth:clamp(5px,1.3vw,13px);--cap-bevel:clamp(3px,.7vw,7px);
+  flex:var(--units,1) 1 0;min-width:0;height:clamp(25px,5.7vw,48px);
   position:relative;isolation:isolate;color:var(--cap-text);
+  background:var(--cap-base);border-radius:6px;box-shadow:inset 0 -2px #0003,0 1px 1px #000;overflow:hidden;
   font-size:clamp(.42rem,1.05vw,.72rem);white-space:nowrap;
   transition:transform .1s ease,filter .1s ease;
 }
-.key.mod{--cap:#645775;--cap-shine:#81738f;--cap-text:#f4eefa;--cap-base:#51445f;--cap-shadow:#352b43}
-.key.accent{--cap:#b9a2d7;--cap-shine:#d2bee9;--cap-text:#2b2039;--cap-base:#8f77ad;--cap-shadow:#5c4777}
+.key.mod{--cap:#515853;--cap-shine:#636b64;--cap-text:#ecece6;--cap-base:#3f4740;--cap-shadow:#2c332d}
+.key.accent{--cap:#929b8c;--cap-shine:#a6ae9f;--cap-text:#20291f;--cap-base:#747e6d;--cap-shadow:#505c4b}
 .key::before{
-  content:"";position:absolute;inset:0;border-radius:6px;
-  background:conic-gradient(from 45deg at 50% 30%,var(--cap-shadow),var(--cap-base) 24%,var(--cap-base) 48%,var(--cap-shine) 76%,var(--cap-shadow));
-  clip-path:polygon(var(--cap-bevel) 0,calc(100% - var(--cap-bevel)) 0,100% 88%,calc(100% - 2px) 100%,2px 100%,0 88%);
-  box-shadow:inset 0 -2px #0005;
+  content:"";position:absolute;inset:0 auto 0 0;width:var(--cap-bevel);background:var(--cap-shine);
+  clip-path:polygon(100% 0,100% calc(100% - var(--cap-depth)),0 100%,0 0);
 }
+.key::after{content:"";position:absolute;inset:0 0 0 auto;width:var(--cap-bevel);background:var(--cap-shadow);
+  clip-path:polygon(0 0,100% 0,100% 100%,0 calc(100% - var(--cap-depth)))}
 .key-face{
-  position:absolute;inset:1px var(--cap-bevel) var(--cap-depth);
-  display:grid;place-items:center;overflow:hidden;border-radius:clamp(3px,.65vw,7px);
-  background:linear-gradient(155deg,var(--cap-shine),var(--cap) 60%);
-  box-shadow:inset 0 1px #ffffff5c,inset 0 -1px #0003,0 1px 2px #0006;
+  position:absolute;z-index:1;inset:1px var(--cap-bevel) var(--cap-depth);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;overflow:hidden;border-radius:clamp(3px,.65vw,6px);
+  font-family:Arial,sans-serif;font-size:clamp(5px,1vw,9px);line-height:1.1;
+  background:linear-gradient(100deg,var(--cap-shine),var(--cap) 22%,var(--cap) 78%,var(--cap-shine));
+  border:1px solid #0003;box-shadow:inset 0 1px #ffffff40,0 1px 1px #0005;
 }
+.key-legend{font-size:inherit;opacity:.9}
 .key.dn{transform:translateY(3px);filter:brightness(1.12)}
 .key-face::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
   background:#e56269;opacity:var(--heat,0);mix-blend-mode:multiply}
-.gl{position:absolute;inset:1px var(--cap-bevel) var(--cap-depth);border-radius:6px;
-  pointer-events:none;opacity:0;background:#d2b1f45c}
+.gl{position:absolute;z-index:2;inset:1px var(--cap-bevel) var(--cap-depth);border-radius:6px;
+  pointer-events:none;opacity:0;background:#ffffff4a}
 #packStatus{position:fixed;z-index:30;left:50%;bottom:18px;transform:translateX(-50%);
   width:max-content;max-width:calc(100% - 30px);padding:8px 12px;border:1px solid var(--edge);
   border-radius:6px;background:var(--bezel);color:#edf0f2;font-size:.75rem}
+#soundDialog{margin:auto;width:min(420px,calc(100% - 32px));padding:22px;border:1px solid var(--edge);border-radius:12px;background:#1b1e1c;color:var(--ph);font:inherit;font-size:.8rem;box-shadow:0 24px 70px #0008}
+#soundDialog::backdrop{background:#0009;backdrop-filter:blur(4px)}
+.dialog-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.dialog-heading h2{font-size:1rem;font-weight:500}
+#soundDialog p{color:var(--ph-dim);line-height:1.7;margin:12px 0}
+#soundDialog a{color:var(--ph);text-underline-offset:4px}
+.pack-links{display:grid;gap:12px;margin:18px 0}
+#soundChoice{width:100%;padding:10px;background:#282e29;border:1px solid var(--edge);border-radius:5px;color:var(--ph);font:inherit}
 
 @media (prefers-reduced-motion:reduce){
   .caret{animation:none}.key{transition:none}
   #panel,.mon-btn{transition:none}
   #result.go *,.afill{animation:none!important;transition:none!important}}
 @media (max-width:700px){
-  #panel{position:absolute;inset:0 auto 0 0;z-index:10;background:#221e29;width:min(220px,76%);min-width:0}
+  #panel{position:absolute;inset:0 auto 0 0;z-index:10;background:#1d211e;width:min(220px,76%);min-width:0}
   #panel.collapsed{width:min(220px,76%);transform:translateX(-100%)}
   #panel{transition:transform .28s ease,opacity .22s ease}
 }
@@ -238,11 +251,6 @@ header,#hint{transition:opacity .3s}
 
     <!-- top bezel bar -->
     <div class="mon-top">
-      <div>
-        <span class="mon-dot"></span>
-        <span class="mon-dot"></span>
-        <span class="mon-dot lit"></span>
-      </div>
       <span class="mon-title">TIEP</span>
       <div class="monitor-actions">
         <button class="mon-btn on" id="panelbtn" aria-label="Toggle diagnostics" aria-controls="panel" aria-expanded="true" title="Toggle diagnostics">&#x2630;</button>
@@ -284,7 +292,7 @@ header,#hint{transition:opacity .3s}
             <div class="plabel">key accuracy</div>
             <div id="accbars"></div>
           </div>
-          <div class="pblock" style="flex:1;display:flex;flex-direction:column">
+          <div class="pblock logblock">
             <div class="plabel">event log</div>
             <div id="log"></div>
           </div>
@@ -341,6 +349,18 @@ header,#hint{transition:opacity .3s}
 </div><!-- /desk -->
 
 <input type="file" id="packFiles" webkitdirectory multiple hidden>
+<dialog id="soundDialog" aria-labelledby="soundTitle">
+  <div class="dialog-heading"><h2 id="soundTitle">Keyboard sounds</h2><button class="mon-btn" id="closeSounds" aria-label="Close keyboard sounds">✕</button></div>
+  <label for="soundChoice">Active pack</label>
+  <select id="soundChoice"><option value="default">Chevy · default</option></select>
+  <p>Download a pack, extract its ZIP, then import the folder. Imported sounds stay in this browser tab.</p>
+  <div class="pack-links">
+    <a href="https://mechvibes.com/sound-packs/wooting-60he-v2" target="_blank" rel="noopener noreferrer">Wooting 60HE V2 ↗</a>
+    <a href="https://mechvibes.com/sound-packs/akko-matcha-green-switches" target="_blank" rel="noopener noreferrer">Akko Matcha Green ↗</a>
+    <a href="https://mechvibes.com/sound-packs/razer-huntsman-v3-pro-8k" target="_blank" rel="noopener noreferrer">Razer Huntsman V3 Pro 8K ↗</a>
+  </div>
+  <button class="again" id="importSounds">Import folder</button>
+</dialog>
 <p id="packStatus" role="status" hidden></p>
 <script src="./keyboard-sound.js"></script>
 <script>
@@ -388,7 +408,8 @@ function logEvent(msg,cls=""){
   const m=document.createElement("span");m.className="lm"+(cls?" "+cls:"");m.textContent=msg;
   line.appendChild(t);line.appendChild(m);
   const log=$("log");log.appendChild(line);
-  while(log.children.length>LOG_MAX)log.removeChild(log.firstChild)}
+  while(log.children.length>LOG_MAX)log.removeChild(log.firstChild);
+  log.scrollTop=log.scrollHeight}
 function flashReg(id){const el=$("rg-"+id);if(!el)return;el.classList.add("flash");setTimeout(()=>el.classList.remove("flash"),200)}
 function setReg(id,val,doFlash=false){const el=$("rv-"+id);if(el)el.textContent=val;if(doFlash)flashReg(id)}
 function updateRegisters(){
@@ -606,6 +627,7 @@ function draw(p=1){
 
 /* ── input ── */
 addEventListener("keydown",e=>{
+  if($("soundDialog").open)return;
   if(!e.repeat&&keyMap[e.code]){
     keyMap[e.code].classList.add("dn");
     if(!done&&!armed&&!e.ctrlKey&&!e.metaKey&&!e.altKey)trail.push(e.code);
@@ -684,13 +706,14 @@ const keyMap={};
 const keyLetters=letters=>Array.from(letters,letter=>["Key"+letter,letter,1,"",letter.toLowerCase()]);
 const keyDigits=Array.from("1234567890",digit=>["Digit"+digit,digit]);
 const rows=[
-  [["Escape","esc",1,"accent"],...Array.from({length:12},(_,i)=>["F"+(i+1),"F"+(i+1),1,"mod"]),["Delete","del",1,"mod"]],
+  [["Escape","esc",1,"accent"],...Array.from({length:12},(_,i)=>["F"+(i+1),"F"+(i+1),1,i>=4&&i<=8?"mod":""]),["PrintScreen","▦",1,"mod"],["Delete","del",1,"mod"],["Pause","◌",1,"mod"]],
   [["Backquote","~"],...keyDigits,["Minus","-"],["Equal","="],["Backspace","⌫",1.8,"mod"],["PageUp","pg↑",1,"mod"]],
   [["Tab","tab",1.5,"mod"],...keyLetters("QWERTYUIOP"),["BracketLeft","["],["BracketRight","]"],["Backslash","\\",1.2],["PageDown","pg↓",1,"mod"]],
   [["CapsLock","caps",1.7,"mod"],...keyLetters("ASDFGHJKL"),["Semicolon",";"],["Quote","'"],["Enter","return",1.9,"accent"],["Home","home",1,"mod"]],
   [["ShiftLeft","shift",2.2,"mod"],...keyLetters("ZXCVBNM"),["Comma",","],["Period","."],["Slash","/"],["ShiftRight","shift",1.4,"mod"],["ArrowUp","↑",1,"accent"],["End","end",1,"mod"]],
-  [["ControlLeft","ctrl",1.25,"mod"],["MetaLeft","win",1.25,"mod"],["AltLeft","alt",1.25,"mod"],["Space","",6.5],["AltRight","alt",1.25,"mod"],["ControlRight","ctrl",1,"mod"],["ArrowLeft","←",1,"accent"],["ArrowDown","↓",1,"accent"],["ArrowRight","→",1,"accent"]],
+  [["ControlLeft","ctrl",1.25,"mod"],["MetaLeft","win",1.25,"mod"],["AltLeft","alt",1.25,"mod"],["Space","",6.25],["AltRight","alt",1,"mod"],["ContextMenu","menu",1,"mod"],["ControlRight","ctrl",1,"mod"],["ArrowLeft","←",1,"accent"],["ArrowDown","↓",1,"accent"],["ArrowRight","→",1,"accent"]],
 ];
+const legends={Backquote:"`",Digit1:"!",Digit2:"@",Digit3:"#",Digit4:"$",Digit5:"%",Digit6:"^",Digit7:"&",Digit8:"*",Digit9:"(",Digit0:")",Minus:"_",Equal:"+",BracketLeft:"{",BracketRight:"}",Backslash:"|",Semicolon:":",Quote:'"',Comma:"<",Period:">",Slash:"?",F1:"☼",F2:"☀",F3:"▦",F4:"⌕",F5:"♩",F6:"☾",F7:"◂◂",F8:"▷",F9:"▸▸",F10:"◁",F11:"◀",F12:"▶"};
 for(const keys of rows){
   const row=document.createElement("div");
   row.className="kr";
@@ -699,7 +722,8 @@ for(const keys of rows){
     key.className=tone?"key "+tone:"key";
     const face=document.createElement("span");
     face.className="key-face";
-    face.textContent=label;
+    if(legends[code]){const secondary=document.createElement("span");secondary.className="key-legend";secondary.textContent=legends[code];face.appendChild(secondary)}
+    const primary=document.createElement("span");primary.textContent=label;face.appendChild(primary);
     key.appendChild(face);
     key.dataset.character=character;
     key.style.setProperty("--units",units);
@@ -723,15 +747,19 @@ function replay(){
   const dur=Math.min(3200,Math.max(900,n*55)),t0=performance.now()+300;let k=0;
   (function f(now){if(id!==rid)return;const idx=Math.min(n,Math.floor((now-t0)/dur*n));while(k<idx){pulse(seq[k]);k++}if(k<n)requestAnimationFrame(f)})(performance.now())}
 let packNotice;
-$("soundPack").onclick=()=>$("packFiles").click();
+$("soundPack").onclick=()=>$("soundDialog").showModal();
+$("closeSounds").onclick=()=>$("soundDialog").close();
+$("importSounds").onclick=()=>$("packFiles").click();
+$("soundChoice").onchange=event=>{TiepSound.select(event.target.value);TiepSound.play("KeyA")};
 $("packFiles").onchange=async event=>{
   const files=Array.from(event.target.files);
   if(!files.length)return;
   const status=$("packStatus");
   try{
-    const name=await TiepSound.importFolder(files);
-    $("soundPack").textContent=name.length>22?name.slice(0,21)+"…":name;
-    $("soundPack").title="Import another keyboard sound pack";
+    const {name,id}=await TiepSound.importFolder(files);
+    const option=document.createElement("option");option.value=id;option.textContent=name;
+    $("soundChoice").appendChild(option);$("soundChoice").value=id;
+    TiepSound.play("KeyA");
     status.textContent="Loaded "+name+" for this session";
   }catch(error){
     status.textContent=error.message;
