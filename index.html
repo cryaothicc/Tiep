@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>TIEP</title>
+<link rel="icon" type="image/svg+xml" href="./favicon.svg">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&display=swap">
 <style>
 :root{
@@ -226,6 +227,11 @@ header,#hint{transition:opacity .3s}
 #soundDialog a{color:var(--ph);text-underline-offset:4px}
 .pack-links{display:grid;gap:12px;margin:18px 0}
 #soundChoice{width:100%;padding:10px;background:#282e29;border:1px solid var(--edge);border-radius:5px;color:var(--ph);font:inherit}
+.volume-heading{display:flex;align-items:center;justify-content:space-between;margin:18px 0 8px}
+.volume-controls{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+#soundVolume{flex:1;min-width:0;accent-color:#cbd1c2;cursor:pointer}
+#soundVolumeValue{font-variant-numeric:tabular-nums;color:var(--ph-dim)}
+.sound-actions{display:flex;gap:8px;flex-wrap:wrap}
 
 @media (prefers-reduced-motion:reduce){
   .caret{animation:none}.key{transition:none}
@@ -352,15 +358,17 @@ header,#hint{transition:opacity .3s}
 <input type="file" id="packFiles" webkitdirectory multiple hidden>
 <dialog id="soundDialog" aria-labelledby="soundTitle">
   <div class="dialog-heading"><h2 id="soundTitle">Keyboard sounds</h2><button class="mon-btn" id="closeSounds" aria-label="Close keyboard sounds">✕</button></div>
+  <div class="volume-heading"><label for="soundVolume">Volume</label><output id="soundVolumeValue" for="soundVolume">45%</output></div>
+  <div class="volume-controls"><input id="soundVolume" type="range" min="0" max="100" step="1" value="45"><button class="again" id="testSound">Test sound</button></div>
   <label for="soundChoice">Active pack</label>
-  <select id="soundChoice"><option value="default">Chevy · default</option></select>
-  <p>Download a pack, extract its ZIP, then import the folder. Imported sounds stay in this browser tab.</p>
+  <select id="soundChoice" disabled><option value="default">Chevy · default</option></select>
+  <p id="soundStorageNote">Import once to save a pack in this browser. Download and extract its ZIP, then choose the folder.</p>
   <div class="pack-links">
     <a href="https://mechvibes.com/sound-packs/wooting-60he-v2" target="_blank" rel="noopener noreferrer">Wooting 60HE V2 ↗</a>
     <a href="https://mechvibes.com/sound-packs/akko-matcha-green-switches" target="_blank" rel="noopener noreferrer">Akko Matcha Green ↗</a>
     <a href="https://mechvibes.com/sound-packs/razer-huntsman-v3-pro-8k" target="_blank" rel="noopener noreferrer">Razer Huntsman V3 Pro 8K ↗</a>
   </div>
-  <button class="again" id="importSounds">Import folder</button>
+  <div class="sound-actions"><button class="again" id="importSounds" disabled>Import folder</button><button class="again" id="removeSound" hidden>Remove pack</button></div>
 </dialog>
 <p id="packStatus" role="status" hidden></p>
 <script src="./keyboard-sound.js"></script>
@@ -746,26 +754,50 @@ function replay(){
   const dur=Math.min(3200,Math.max(900,n*55)),t0=performance.now()+300;let k=0;
   (function f(now){if(id!==rid)return;const idx=Math.min(n,Math.floor((now-t0)/dur*n));while(k<idx){pulse(seq[k]);k++}if(k<n)requestAnimationFrame(f)})(performance.now())}
 let packNotice;
+function soundNotice(message){
+  const status=$("packStatus");status.textContent=message;status.hidden=false;
+  clearTimeout(packNotice);packNotice=setTimeout(()=>status.hidden=true,6000);
+}
+function updateVolume(){
+  const value=Math.round(TiepSound.getVolume()*100);
+  $("soundVolume").value=value;$("soundVolumeValue").textContent=value+"%";
+  $("soundVolume").setAttribute("aria-valuetext",value+" percent");
+}
+function addSoundOption({id,name}){
+  const option=document.createElement("option");option.value=id;option.textContent=name;$("soundChoice").appendChild(option);
+}
+TiepSound.ready.then(({packs,selected,storageAvailable})=>{
+  packs.forEach(addSoundOption);$("soundChoice").value=selected;
+  $("soundChoice").disabled=false;$("importSounds").disabled=false;
+  $("removeSound").hidden=selected==="default";
+  if(!storageAvailable)$("soundStorageNote").textContent="Browser storage is unavailable. Imported packs will work until you close or refresh this tab.";
+});
+updateVolume();
+$("soundVolume").oninput=event=>{TiepSound.setVolume(Number(event.target.value)/100);updateVolume()};
+$("testSound").onclick=()=>TiepSound.play("KeyA");
 $("soundPack").onclick=()=>$("soundDialog").showModal();
 $("closeSounds").onclick=()=>$("soundDialog").close();
 $("importSounds").onclick=()=>$("packFiles").click();
-$("soundChoice").onchange=event=>{TiepSound.select(event.target.value);TiepSound.play("KeyA")};
+$("soundChoice").onchange=event=>{TiepSound.select(event.target.value);$("removeSound").hidden=event.target.value==="default";TiepSound.play("KeyA")};
+$("removeSound").onclick=async()=>{
+  const id=$("soundChoice").value;if(id==="default")return;
+  try{
+    await TiepSound.remove(id);$("soundChoice").querySelector(`option[value="${id}"]`).remove();
+    $("soundChoice").value="default";TiepSound.select("default");$("removeSound").hidden=true;
+    soundNotice("Pack removed from this browser.");
+  }catch{soundNotice("Could not remove the saved pack. Try again.")}
+};
 $("packFiles").onchange=async event=>{
   const files=Array.from(event.target.files);
   if(!files.length)return;
-  const status=$("packStatus");
   try{
-    const {name,id}=await TiepSound.importFolder(files);
-    const option=document.createElement("option");option.value=id;option.textContent=name;
-    $("soundChoice").appendChild(option);$("soundChoice").value=id;
+    const {name,id,saved}=await TiepSound.importFolder(files);
+    addSoundOption({name,id});$("soundChoice").value=id;$("removeSound").hidden=false;
     TiepSound.play("KeyA");
-    status.textContent="Loaded "+name+" for this session";
+    soundNotice(saved?name+" saved in this browser.":name+" loaded for this tab. Browser storage is unavailable.");
   }catch(error){
-    status.textContent=error.message;
+    soundNotice(error.message);
   }
-  status.hidden=false;
-  clearTimeout(packNotice);
-  packNotice=setTimeout(()=>status.hidden=true,4500);
   event.target.value="";
 };
 addEventListener("resize",()=>{if(done){draw();buildTrail(1)}else if(mode==="words")place();else placeCode();updateMiniChart()});

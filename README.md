@@ -16,7 +16,7 @@ Open `index.html` in a desktop browser and start typing. No install or build ste
 - In code mode, the active line is highlighted. ↵ appears when Enter is next, and an indentation hint appears when Tab can fill leading spaces.
 - Use the hamburger button to show or hide diagnostics. The keyboard stays below the monitor and replays your keystrokes after the test.
 - Review WPM and accuracy, then choose **New test**, **Repeat**. The speed graph is below the results controls.
-- Use **snd** to turn keyboard audio on or off.
+- Use **snd** to turn keyboard audio on or off. Open **Sound pack** to set volume from 0–100% and preview it with **Test sound**. Your volume setting is remembered.
 
 | Shortcut | Action |
 | --- | --- |
@@ -33,4 +33,6 @@ TIEP is a work in progress and works best with a physical keyboard.
 
 The default uses unmodified audio files from [My Sound Pack by Chevy](https://mechvibes.com/sound-packs/my-sound-pack-5), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 
-Open **Sound pack** for download links. Download and extract a ZIP, then choose **Import folder** and select its extracted folder. Use **Active pack** to switch between imported packs and the Chevy default. Imported sounds stay in the current browser tab and need importing again after a refresh. Try [Wooting 60HE V2](https://mechvibes.com/sound-packs/wooting-60he-v2), [Akko Matcha Green](https://mechvibes.com/sound-packs/akko-matcha-green-switches), or [Razer Huntsman V3 Pro 8K](https://mechvibes.com/sound-packs/razer-huntsman-v3-pro-8k). These three packs are listed for personal use and are not bundled with TIEP.
+Open **Sound pack** for download links. Download and extract a ZIP, then choose **Import folder** and select its extracted folder. Use **Active pack** to switch between imported packs and the Chevy default. Imported files are saved locally in IndexedDB; your selected pack is restored after a refresh. They are not uploaded. **Remove pack** deletes a saved pack. Clearing site data also removes saved packs. If browser storage is unavailable, imports work for the current tab only.
+
+Supported personal packs include [Wooting 60HE V2](https://mechvibes.com/sound-packs/wooting-60he-v2), [Akko Matcha Green](https://mechvibes.com/sound-packs/akko-matcha-green-switches), and [Razer Huntsman V3 Pro 8K](https://mechvibes.com/sound-packs/razer-huntsman-v3-pro-8k). Their downloaded licenses credit **shnaizel9** as the original author of Wooting and Razer, and **harcbinger** for Akko. All three are archived by Mechvibes and marked personal-use only, so their recordings are not bundled with this repository.
