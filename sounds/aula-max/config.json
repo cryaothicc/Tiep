@@ -1,0 +1,567 @@
+{
+  "config_version": "2",
+  "name": "aula f75 max leobog reaper switch",
+  "author": "samuel quiceno",
+  "description": "costum sond keys sattisfying",
+  "tags": [],
+  "definition_method": "multi",
+  "audio_file": "backspace.ogg",
+  "soundpack_type": "Keyboard",
+  "options": {
+    "recommended_volume": 1,
+    "random_pitch": false
+  },
+  "definitions": {
+    "Space": {
+      "audio_file": "spacebar.ogg",
+      "timing": [
+        [
+          0,
+          410
+        ]
+      ]
+    },
+    "Digit1": {
+      "audio_file": "1.ogg",
+      "timing": [
+        [
+          0,
+          276.644
+        ]
+      ]
+    },
+    "Digit2": {
+      "audio_file": "2.ogg",
+      "timing": [
+        [
+          0,
+          257.71
+        ]
+      ]
+    },
+    "Digit3": {
+      "audio_file": "3.ogg",
+      "timing": [
+        [
+          0,
+          230
+        ]
+      ]
+    },
+    "Digit4": {
+      "audio_file": "4.ogg",
+      "timing": [
+        [
+          0,
+          230
+        ]
+      ]
+    },
+    "Digit5": {
+      "audio_file": "5.ogg",
+      "timing": [
+        [
+          0,
+          238.798
+        ]
+      ]
+    },
+    "Digit6": {
+      "audio_file": "6.ogg",
+      "timing": [
+        [
+          0,
+          220
+        ]
+      ]
+    },
+    "Digit7": {
+      "audio_file": "7.ogg",
+      "timing": [
+        [
+          0,
+          326.916
+        ]
+      ]
+    },
+    "Digit8": {
+      "audio_file": "8.ogg",
+      "timing": [
+        [
+          0,
+          296.281
+        ]
+      ]
+    },
+    "Backspace": {
+      "audio_file": "backspace.ogg",
+      "timing": [
+        [
+          0,
+          357.029
+        ]
+      ]
+    },
+    "Enter": {
+      "audio_file": "enter.ogg",
+      "timing": [
+        [
+          0,
+          260
+        ]
+      ]
+    },
+    "ShiftLeft": {
+      "audio_file": "shift.ogg",
+      "timing": [
+        [
+          0,
+          319.66
+        ]
+      ]
+    },
+    "ShiftRight": {
+      "audio_file": "shift.ogg",
+      "timing": [
+        [
+          0,
+          319.66
+        ]
+      ]
+    },
+    "KeyQ": {
+      "audio_file": "backspace.ogg",
+      "timing": [
+        [
+          0,
+          357.029
+        ]
+      ]
+    },
+    "KeyW": {
+      "audio_file": "backspace.ogg",
+      "timing": [
+        [
+          0,
+          357.029
+        ]
+      ]
+    },
+    "KeyE": {
+      "audio_file": "backspace.ogg",
+      "timing": [
+        [
+          0,
+          357.029
+        ]
+      ]
+    },
+    "KeyR": {
+      "audio_file": "backspace.ogg",
+      "timing": [
+        [
+          0,
+          357.029
+        ]
+      ]
+    },
+    "KeyT": {
+      "audio_file": "backspace.ogg",
+      "timing": [
+        [
+          0,
+          357.029
+        ]
+      ]
+    },
+    "KeyY": {
+      "audio_file": "backspace.ogg",
+      "timing": [
+        [
+          0,
+          357.029
+        ]
+      ]
+    },
+    "KeyU": {
+      "audio_file": "backspace.ogg",
+      "timing": [
+        [
+          0,
+          357.029
+        ]
+      ]
+    },
+    "KeyI": {
+      "audio_file": "backspace.ogg",
+      "timing": [
+        [
+          0,
+          357.029
+        ]
+      ]
+    },
+    "KeyO": {
+      "audio_file": "backspace.ogg",
+      "timing": [
+        [
+          0,
+          357.029
+        ]
+      ]
+    },
+    "KeyP": {
+      "audio_file": "backspace.ogg",
+      "timing": [
+        [
+          0,
+          357.029
+        ]
+      ]
+    },
+    "KeyA": {
+      "audio_file": "backspace.ogg",
+      "timing": [
+        [
+          0,
+          357.029
+        ]
+      ]
+    },
+    "KeyS": {
+      "audio_file": "backspace.ogg",
+      "timing": [
+        [
+          0,
+          357.029
+        ]
+      ]
+    },
+    "KeyD": {
+      "audio_file": "backspace.ogg",
+      "timing": [
+        [
+          0,
+          357.029
+        ]
+      ]
+    },
+    "KeyF": {
+      "audio_file": "backspace.ogg",
+      "timing": [
+        [
+          0,
+          357.029
+        ]
+      ]
+    },
+    "KeyG": {
+      "audio_file": "backspace.ogg",
+      "timing": [
+        [
+          0,
+          357.029
+        ]
+      ]
+    },
+    "KeyH": {
+      "audio_file": "backspace.ogg",
+      "timing": [
+        [
+          0,
+          357.029
+        ]
+      ]
+    },
+    "KeyJ": {
+      "audio_file": "backspace.ogg",
+      "timing": [
+        [
+          0,
+          357.029
+        ]
+      ]
+    },
+    "KeyK": {
+      "audio_file": "backspace.ogg",
+      "timing": [
+        [
+          0,
+          357.029
+        ]
+      ]
+    },
+    "KeyL": {
+      "audio_file": "backspace.ogg",
+      "timing": [
+        [
+          0,
+          357.029
+        ]
+      ]
+    },
+    "KeyZ": {
+      "audio_file": "backspace.ogg",
+      "timing": [
+        [
+          0,
+          357.029
+        ]
+      ]
+    },
+    "KeyX": {
+      "audio_file": "backspace.ogg",
+      "timing": [
+        [
+          0,
+          357.029
+        ]
+      ]
+    },
+    "KeyC": {
+      "audio_file": "backspace.ogg",
+      "timing": [
+        [
+          0,
+          357.029
+        ]
+      ]
+    },
+    "KeyV": {
+      "audio_file": "backspace.ogg",
+      "timing": [
+        [
+          0,
+          357.029
+        ]
+      ]
+    },
+    "KeyB": {
+      "audio_file": "backspace.ogg",
+      "timing": [
+        [
+          0,
+          357.029
+        ]
+      ]
+    },
+    "KeyN": {
+      "audio_file": "backspace.ogg",
+      "timing": [
+        [
+          0,
+          357.029
+        ]
+      ]
+    },
+    "KeyM": {
+      "audio_file": "backspace.ogg",
+      "timing": [
+        [
+          0,
+          357.029
+        ]
+      ]
+    },
+    "Comma": {
+      "audio_file": "5.ogg",
+      "timing": [
+        [
+          0,
+          238.798
+        ]
+      ]
+    },
+    "Period": {
+      "audio_file": "5.ogg",
+      "timing": [
+        [
+          0,
+          238.798
+        ]
+      ]
+    },
+    "Slash": {
+      "audio_file": "5.ogg",
+      "timing": [
+        [
+          0,
+          238.798
+        ]
+      ]
+    },
+    "Semicolon": {
+      "audio_file": "5.ogg",
+      "timing": [
+        [
+          0,
+          238.798
+        ]
+      ]
+    },
+    "Quote": {
+      "audio_file": "5.ogg",
+      "timing": [
+        [
+          0,
+          238.798
+        ]
+      ]
+    },
+    "BracketLeft": {
+      "audio_file": "5.ogg",
+      "timing": [
+        [
+          0,
+          238.798
+        ]
+      ]
+    },
+    "BracketRight": {
+      "audio_file": "5.ogg",
+      "timing": [
+        [
+          0,
+          238.798
+        ]
+      ]
+    },
+    "Minus": {
+      "audio_file": "5.ogg",
+      "timing": [
+        [
+          0,
+          238.798
+        ]
+      ]
+    },
+    "Equal": {
+      "audio_file": "5.ogg",
+      "timing": [
+        [
+          0,
+          238.798
+        ]
+      ]
+    },
+    "Digit9": {
+      "audio_file": "5.ogg",
+      "timing": [
+        [
+          0,
+          238.798
+        ]
+      ]
+    },
+    "Digit0": {
+      "audio_file": "5.ogg",
+      "timing": [
+        [
+          0,
+          238.798
+        ]
+      ]
+    },
+    "ControlRight": {
+      "audio_file": "5.ogg",
+      "timing": [
+        [
+          0,
+          238.798
+        ]
+      ]
+    },
+    "ContextMenu": {
+      "audio_file": "5.ogg",
+      "timing": [
+        [
+          0,
+          238.798
+        ]
+      ]
+    },
+    "MetaRight": {
+      "audio_file": "5.ogg",
+      "timing": [
+        [
+          0,
+          238.798
+        ]
+      ]
+    },
+    "AltRight": {
+      "audio_file": "5.ogg",
+      "timing": [
+        [
+          0,
+          238.798
+        ]
+      ]
+    },
+    "ControlLeft": {
+      "audio_file": "5.ogg",
+      "timing": [
+        [
+          0,
+          238.798
+        ]
+      ]
+    },
+    "MetaLeft": {
+      "audio_file": "5.ogg",
+      "timing": [
+        [
+          0,
+          238.798
+        ]
+      ]
+    },
+    "AltLeft": {
+      "audio_file": "5.ogg",
+      "timing": [
+        [
+          0,
+          238.798
+        ]
+      ]
+    },
+    "CapsLock": {
+      "audio_file": "5.ogg",
+      "timing": [
+        [
+          0,
+          238.798
+        ]
+      ]
+    },
+    "Tab": {
+      "audio_file": "5.ogg",
+      "timing": [
+        [
+          0,
+          238.798
+        ]
+      ]
+    },
+    "Backquote": {
+      "audio_file": "5.ogg",
+      "timing": [
+        [
+          0,
+          238.798
+        ]
+      ]
+    },
+    "Backslash": {
+      "audio_file": "5.ogg",
+      "timing": [
+        [
+          0,
+          238.798
+        ]
+      ]
+    }
+  },
+  "id": "mv-a69be47013ba40fa820791965325c2d0",
+  "version": "1"
+}

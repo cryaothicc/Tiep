@@ -1,0 +1,801 @@
+{
+  "config_version": "2",
+  "name": "aula f75",
+  "author": "alex Ortiz",
+  "description": "aula f75",
+  "tags": [],
+  "definition_method": "multi",
+  "audio_file": "spacebar.mp3",
+  "soundpack_type": "Keyboard",
+  "options": {
+    "recommended_volume": 1,
+    "random_pitch": false
+  },
+  "definitions": {
+    "KeyQ": {
+      "audio_file": "1.mp3",
+      "timing": [
+        [
+          0,
+          224.875
+        ]
+      ]
+    },
+    "KeyW": {
+      "audio_file": "2.mp3",
+      "timing": [
+        [
+          0,
+          197.77100000000002
+        ]
+      ]
+    },
+    "KeyE": {
+      "audio_file": "3.mp3",
+      "timing": [
+        [
+          0,
+          164.97899999999998
+        ]
+      ]
+    },
+    "KeyA": {
+      "audio_file": "1.mp3",
+      "timing": [
+        [
+          0,
+          224.875
+        ]
+      ]
+    },
+    "KeyS": {
+      "audio_file": "2.mp3",
+      "timing": [
+        [
+          0,
+          197.77100000000002
+        ]
+      ]
+    },
+    "KeyD": {
+      "audio_file": "3.mp3",
+      "timing": [
+        [
+          0,
+          164.97899999999998
+        ]
+      ]
+    },
+    "KeyZ": {
+      "audio_file": "4.mp3",
+      "timing": [
+        [
+          0,
+          164.97899999999998
+        ]
+      ]
+    },
+    "KeyX": {
+      "audio_file": "2.mp3",
+      "timing": [
+        [
+          0,
+          197.77100000000002
+        ]
+      ]
+    },
+    "Space": {
+      "audio_file": "spacebar.mp3",
+      "timing": [
+        [
+          0,
+          235.47899999999998
+        ]
+      ]
+    },
+    "AltLeft": {
+      "audio_file": "4.mp3",
+      "timing": [
+        [
+          0,
+          164.97899999999998
+        ]
+      ]
+    },
+    "MetaLeft": {
+      "audio_file": "1.mp3",
+      "timing": [
+        [
+          0,
+          224.875
+        ]
+      ]
+    },
+    "ControlLeft": {
+      "audio_file": "5.mp3",
+      "timing": [
+        [
+          0,
+          203.563
+        ]
+      ]
+    },
+    "Escape": {
+      "audio_file": "2.mp3",
+      "timing": [
+        [
+          0,
+          197.77100000000002
+        ]
+      ]
+    },
+    "KeyC": {
+      "audio_file": "3.mp3",
+      "timing": [
+        [
+          0,
+          164.97899999999998
+        ]
+      ]
+    },
+    "ShiftLeft": {
+      "audio_file": "5.mp3",
+      "timing": [
+        [
+          0,
+          203.563
+        ]
+      ]
+    },
+    "Backquote": {
+      "audio_file": "1.mp3",
+      "timing": [
+        [
+          0,
+          224.875
+        ]
+      ]
+    },
+    "Tab": {
+      "audio_file": "2.mp3",
+      "timing": [
+        [
+          0,
+          197.77100000000002
+        ]
+      ]
+    },
+    "CapsLock": {
+      "audio_file": "5.mp3",
+      "timing": [
+        [
+          0,
+          203.563
+        ]
+      ]
+    },
+    "KeyV": {
+      "audio_file": "4.mp3",
+      "timing": [
+        [
+          0,
+          164.97899999999998
+        ]
+      ]
+    },
+    "ControlRight": {
+      "audio_file": "spacebar.mp3",
+      "timing": [
+        [
+          0,
+          235.47899999999998
+        ]
+      ]
+    },
+    "AltRight": {
+      "audio_file": "3.mp3",
+      "timing": [
+        [
+          0,
+          164.97899999999998
+        ]
+      ]
+    },
+    "Comma": {
+      "audio_file": "2.mp3",
+      "timing": [
+        [
+          0,
+          197.77100000000002
+        ]
+      ]
+    },
+    "KeyM": {
+      "audio_file": "spacebar.mp3",
+      "timing": [
+        [
+          0,
+          235.47899999999998
+        ]
+      ]
+    },
+    "KeyN": {
+      "audio_file": "spacebar.mp3",
+      "timing": [
+        [
+          0,
+          235.47899999999998
+        ]
+      ]
+    },
+    "KeyO": {
+      "audio_file": "4.mp3",
+      "timing": [
+        [
+          0,
+          164.97899999999998
+        ]
+      ]
+    },
+    "KeyR": {
+      "audio_file": "5.mp3",
+      "timing": [
+        [
+          0,
+          203.563
+        ]
+      ]
+    },
+    "KeyF": {
+      "audio_file": "2.mp3",
+      "timing": [
+        [
+          0,
+          197.77100000000002
+        ]
+      ]
+    },
+    "KeyG": {
+      "audio_file": "spacebar.mp3",
+      "timing": [
+        [
+          0,
+          235.47899999999998
+        ]
+      ]
+    },
+    "KeyB": {
+      "audio_file": "5.mp3",
+      "timing": [
+        [
+          0,
+          203.563
+        ]
+      ]
+    },
+    "ContextMenu": {
+      "audio_file": "2.mp3",
+      "timing": [
+        [
+          0,
+          197.77100000000002
+        ]
+      ]
+    },
+    "MetaRight": {
+      "audio_file": "spacebar.mp3",
+      "timing": [
+        [
+          0,
+          235.47899999999998
+        ]
+      ]
+    },
+    "F1": {
+      "audio_file": "spacebar.mp3",
+      "timing": [
+        [
+          0,
+          235.47899999999998
+        ]
+      ]
+    },
+    "F2": {
+      "audio_file": "1.mp3",
+      "timing": [
+        [
+          0,
+          224.875
+        ]
+      ]
+    },
+    "F3": {
+      "audio_file": "3.mp3",
+      "timing": [
+        [
+          0,
+          164.97899999999998
+        ]
+      ]
+    },
+    "F4": {
+      "audio_file": "2.mp3",
+      "timing": [
+        [
+          0,
+          197.77100000000002
+        ]
+      ]
+    },
+    "F5": {
+      "audio_file": "5.mp3",
+      "timing": [
+        [
+          0,
+          203.563
+        ]
+      ]
+    },
+    "F6": {
+      "audio_file": "spacebar.mp3",
+      "timing": [
+        [
+          0,
+          235.47899999999998
+        ]
+      ]
+    },
+    "F7": {
+      "audio_file": "3.mp3",
+      "timing": [
+        [
+          0,
+          164.97899999999998
+        ]
+      ]
+    },
+    "F8": {
+      "audio_file": "5.mp3",
+      "timing": [
+        [
+          0,
+          203.563
+        ]
+      ]
+    },
+    "F9": {
+      "audio_file": "spacebar.mp3",
+      "timing": [
+        [
+          0,
+          235.47899999999998
+        ]
+      ]
+    },
+    "F10": {
+      "audio_file": "1.mp3",
+      "timing": [
+        [
+          0,
+          224.875
+        ]
+      ]
+    },
+    "F11": {
+      "audio_file": "5.mp3",
+      "timing": [
+        [
+          0,
+          203.563
+        ]
+      ]
+    },
+    "F12": {
+      "audio_file": "2.mp3",
+      "timing": [
+        [
+          0,
+          197.77100000000002
+        ]
+      ]
+    },
+    "PrintScreen": {
+      "audio_file": "4.mp3",
+      "timing": [
+        [
+          0,
+          164.97899999999998
+        ]
+      ]
+    },
+    "ScrollLock": {
+      "audio_file": "spacebar.mp3",
+      "timing": [
+        [
+          0,
+          235.47899999999998
+        ]
+      ]
+    },
+    "Pause": {
+      "audio_file": "3.mp3",
+      "timing": [
+        [
+          0,
+          164.97899999999998
+        ]
+      ]
+    },
+    "Digit1": {
+      "audio_file": "1.mp3",
+      "timing": [
+        [
+          0,
+          224.875
+        ]
+      ]
+    },
+    "Digit2": {
+      "audio_file": "spacebar.mp3",
+      "timing": [
+        [
+          0,
+          235.47899999999998
+        ]
+      ]
+    },
+    "Digit3": {
+      "audio_file": "4.mp3",
+      "timing": [
+        [
+          0,
+          164.97899999999998
+        ]
+      ]
+    },
+    "Digit5": {
+      "audio_file": "4.mp3",
+      "timing": [
+        [
+          0,
+          164.97899999999998
+        ]
+      ]
+    },
+    "Digit4": {
+      "audio_file": "2.mp3",
+      "timing": [
+        [
+          0,
+          197.77100000000002
+        ]
+      ]
+    },
+    "Digit6": {
+      "audio_file": "1.mp3",
+      "timing": [
+        [
+          0,
+          224.875
+        ]
+      ]
+    },
+    "KeyT": {
+      "audio_file": "spacebar.mp3",
+      "timing": [
+        [
+          0,
+          235.47899999999998
+        ]
+      ]
+    },
+    "KeyH": {
+      "audio_file": "4.mp3",
+      "timing": [
+        [
+          0,
+          164.97899999999998
+        ]
+      ]
+    },
+    "Slash": {
+      "audio_file": "1.mp3",
+      "timing": [
+        [
+          0,
+          224.875
+        ]
+      ]
+    },
+    "Digit7": {
+      "audio_file": "spacebar.mp3",
+      "timing": [
+        [
+          0,
+          235.47899999999998
+        ]
+      ]
+    },
+    "Digit8": {
+      "audio_file": "4.mp3",
+      "timing": [
+        [
+          0,
+          164.97899999999998
+        ]
+      ]
+    },
+    "Digit0": {
+      "audio_file": "1.mp3",
+      "timing": [
+        [
+          0,
+          224.875
+        ]
+      ]
+    },
+    "Minus": {
+      "audio_file": "5.mp3",
+      "timing": [
+        [
+          0,
+          203.563
+        ]
+      ]
+    },
+    "Digit9": {
+      "audio_file": "4.mp3",
+      "timing": [
+        [
+          0,
+          164.97899999999998
+        ]
+      ]
+    },
+    "KeyY": {
+      "audio_file": "spacebar.mp3",
+      "timing": [
+        [
+          0,
+          235.47899999999998
+        ]
+      ]
+    },
+    "KeyJ": {
+      "audio_file": "spacebar.mp3",
+      "timing": [
+        [
+          0,
+          235.47899999999998
+        ]
+      ]
+    },
+    "KeyL": {
+      "audio_file": "4.mp3",
+      "timing": [
+        [
+          0,
+          164.97899999999998
+        ]
+      ]
+    },
+    "KeyU": {
+      "audio_file": "spacebar.mp3",
+      "timing": [
+        [
+          0,
+          235.47899999999998
+        ]
+      ]
+    },
+    "KeyK": {
+      "audio_file": "5.mp3",
+      "timing": [
+        [
+          0,
+          203.563
+        ]
+      ]
+    },
+    "KeyI": {
+      "audio_file": "1.mp3",
+      "timing": [
+        [
+          0,
+          224.875
+        ]
+      ]
+    },
+    "KeyP": {
+      "audio_file": "5.mp3",
+      "timing": [
+        [
+          0,
+          203.563
+        ]
+      ]
+    },
+    "Semicolon": {
+      "audio_file": "spacebar.mp3",
+      "timing": [
+        [
+          0,
+          235.47899999999998
+        ]
+      ]
+    },
+    "Period": {
+      "audio_file": "4.mp3",
+      "timing": [
+        [
+          0,
+          164.97899999999998
+        ]
+      ]
+    },
+    "ShiftRight": {
+      "audio_file": "spacebar.mp3",
+      "timing": [
+        [
+          0,
+          235.47899999999998
+        ]
+      ]
+    },
+    "Enter": {
+      "audio_file": "5.mp3",
+      "timing": [
+        [
+          0,
+          203.563
+        ]
+      ]
+    },
+    "Backslash": {
+      "audio_file": "1.mp3",
+      "timing": [
+        [
+          0,
+          224.875
+        ]
+      ]
+    },
+    "BracketRight": {
+      "audio_file": "1.mp3",
+      "timing": [
+        [
+          0,
+          224.875
+        ]
+      ]
+    },
+    "Quote": {
+      "audio_file": "3.mp3",
+      "timing": [
+        [
+          0,
+          164.97899999999998
+        ]
+      ]
+    },
+    "BracketLeft": {
+      "audio_file": "2.mp3",
+      "timing": [
+        [
+          0,
+          197.77100000000002
+        ]
+      ]
+    },
+    "Delete": {
+      "audio_file": "spacebar.mp3",
+      "timing": [
+        [
+          0,
+          235.47899999999998
+        ]
+      ]
+    },
+    "PageUp": {
+      "audio_file": "5.mp3",
+      "timing": [
+        [
+          0,
+          203.563
+        ]
+      ]
+    },
+    "Home": {
+      "audio_file": "5.mp3",
+      "timing": [
+        [
+          0,
+          203.563
+        ]
+      ]
+    },
+    "PageDown": {
+      "audio_file": "3.mp3",
+      "timing": [
+        [
+          0,
+          164.97899999999998
+        ]
+      ]
+    },
+    "Insert": {
+      "audio_file": "1.mp3",
+      "timing": [
+        [
+          0,
+          224.875
+        ]
+      ]
+    },
+    "End": {
+      "audio_file": "spacebar.mp3",
+      "timing": [
+        [
+          0,
+          235.47899999999998
+        ]
+      ]
+    },
+    "Backspace": {
+      "audio_file": "3.mp3",
+      "timing": [
+        [
+          0,
+          164.97899999999998
+        ]
+      ]
+    },
+    "Equal": {
+      "audio_file": "5.mp3",
+      "timing": [
+        [
+          0,
+          203.563
+        ]
+      ]
+    },
+    "ArrowDown": {
+      "audio_file": "spacebar.mp3",
+      "timing": [
+        [
+          0,
+          235.47899999999998
+        ]
+      ]
+    },
+    "ArrowUp": {
+      "audio_file": "spacebar.mp3",
+      "timing": [
+        [
+          0,
+          235.47899999999998
+        ]
+      ]
+    },
+    "ArrowLeft": {
+      "audio_file": "spacebar.mp3",
+      "timing": [
+        [
+          0,
+          235.47899999999998
+        ]
+      ]
+    },
+    "ArrowRight": {
+      "audio_file": "spacebar.mp3",
+      "timing": [
+        [
+          0,
+          235.47899999999998
+        ]
+      ]
+    }
+  },
+  "id": "mv-8d737e96cc424a6996bb62de4e36a59c",
+  "version": "1"
+}

@@ -31,8 +31,8 @@ TIEP is a work in progress and works best with a physical keyboard.
 
 ## Keyboard sounds
 
-The default uses unmodified audio files from [My Sound Pack by Chevy](https://mechvibes.com/sound-packs/my-sound-pack-5), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+Four packs are ready to use: **Aula F75 Max** (the default), **Aula F75**, **Clicky First**, and **Chevy**. Audio is bundled locally and retains its original license. See [sound credits and licenses](sounds/CREDITS.md) for the creators, source links, and terms.
 
-Open **Sound pack** for download links. Download and extract a ZIP, then choose **Import folder** and select its extracted folder. Use **Active pack** to switch between imported packs and the Chevy default. Imported files are saved locally in IndexedDB; your selected pack is restored after a refresh. They are not uploaded. **Remove pack** deletes a saved pack. Clearing site data also removes saved packs. If browser storage is unavailable, imports work for the current tab only.
+Use **Active pack** to switch sounds. The favorite links show three rows at a time; scroll for the rest, including WOB Rainy 75 Pro and Keychron Q3. To add another pack, download and extract its ZIP, then choose **Import folder** and select its extracted folder. Imported files are saved locally in IndexedDB; your selected pack is restored after a refresh. They are not uploaded. **Remove pack** deletes an imported pack. Clearing site data also removes saved packs. If browser storage is unavailable, imports work for the current tab only.
 
 Supported personal packs include [Wooting 60HE V2](https://mechvibes.com/sound-packs/wooting-60he-v2), [Akko Matcha Green](https://mechvibes.com/sound-packs/akko-matcha-green-switches), and [Razer Huntsman V3 Pro 8K](https://mechvibes.com/sound-packs/razer-huntsman-v3-pro-8k). Their downloaded licenses credit **shnaizel9** as the original author of Wooting and Razer, and **harcbinger** for Akko. All three are archived by Mechvibes and marked personal-use only, so their recordings are not bundled with this repository.

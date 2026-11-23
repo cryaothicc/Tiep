@@ -11,7 +11,11 @@ const TiepSound = (() => {
   };
   const samples = new Map();
   const voices = new Set();
-  let currentPack = null;
+  const bundledPacks = new Map(TIEP_BUNDLED_PACKS.map(({ id, path, config }) => {
+    const definitions = definitionsFor(config, filename => path + encodeURIComponent(filename));
+    return [id, { definitions, fallback: definitions.KeyA || Object.values(definitions)[0] }];
+  }));
+  let currentPack = bundledPacks.get("default");
   const importedPacks = new Map();
   let volume = 0.45;
   try {
@@ -60,8 +64,9 @@ const TiepSound = (() => {
 
   function select(id) {
     mute();
-    currentPack = importedPacks.get(id) || null;
-    try { localStorage.setItem("tiep_sound_pack", currentPack ? id : "default"); } catch {}
+    if (!importedPacks.has(id) && !bundledPacks.has(id) && id !== "chevy") id = "default";
+    currentPack = importedPacks.get(id) || bundledPacks.get(id) || null;
+    try { localStorage.setItem("tiep_sound_pack", id); } catch {}
   }
 
   function stop(voice) {
@@ -101,6 +106,21 @@ const TiepSound = (() => {
     audio.play().catch(() => stop(voice));
   }
 
+  function definitionsFor(config, resolve) {
+    const definitions = Object.create(null);
+    for (const [key, definition] of Object.entries(config.definitions)) {
+      const filename = definition?.audio_file || config.audio_file;
+      const timing = definition?.timing;
+      const ranges = Array.isArray(timing) ? timing.filter(pair =>
+        Array.isArray(pair) && Number.isFinite(pair[0]) && Number.isFinite(pair[1]) &&
+        pair[0] >= 0 && pair[1] > pair[0]) : [[0, null]];
+      if (!ranges.length || !filename) continue;
+      const url = resolve(filename);
+      if (url) definitions[key] = { url, ranges };
+    }
+    return definitions;
+  }
+
   async function buildPack(files, id) {
     const configFile = files.find(file => file.name === "config.json");
     if (!configFile) throw new Error("Choose the extracted folder containing config.json.");
@@ -113,22 +133,13 @@ const TiepSound = (() => {
     const audioFiles = new Map(files.filter(file => /\.(ogg|wav|mp3|flac|m4a)$/i.test(file.name))
       .map(file => [file.name, file]));
     const urls = new Map();
-    const definitions = Object.create(null);
-    let fallback = null;
-    for (const [key, definition] of Object.entries(config.definitions)) {
-      const filename = definition?.audio_file || config.audio_file;
+    const definitions = definitionsFor(config, filename => {
       const file = audioFiles.get(filename);
-      if (!file) continue;
-      const timing = definition?.timing;
-      const ranges = Array.isArray(timing) ? timing.filter(pair =>
-        Array.isArray(pair) && Number.isFinite(pair[0]) && Number.isFinite(pair[1]) &&
-        pair[0] >= 0 && pair[1] > pair[0]) : [[0, null]];
-      if (!ranges.length) continue;
+      if (!file) return null;
       if (!urls.has(filename)) urls.set(filename, URL.createObjectURL(file));
-      const sample = { url: urls.get(filename), ranges };
-      definitions[key] = sample;
-      fallback ??= sample;
-    }
+      return urls.get(filename);
+    });
+    const fallback = definitions.KeyA || Object.values(definitions)[0];
     if (!fallback) throw new Error("The folder has no matching audio samples.");
     const name = typeof config.name === "string" ? config.name : "Local sound pack";
     importedPacks.set(id, { definitions, fallback, urls, name });
@@ -147,7 +158,7 @@ const TiepSound = (() => {
     } catch { storageAvailable = false; }
     let selected = "default";
     try { selected = localStorage.getItem("tiep_sound_pack") || selected; } catch {}
-    if (!importedPacks.has(selected)) selected = "default";
+    if (!importedPacks.has(selected) && !bundledPacks.has(selected) && selected !== "chevy") selected = "default";
     select(selected);
     return { packs, selected, storageAvailable };
   }
@@ -165,11 +176,13 @@ const TiepSound = (() => {
 
   async function remove(id) {
     const pack = importedPacks.get(id);
+    if (!pack) return;
     if (pack?.saved) await writePack({ id }, true);
     if (currentPack === pack) select("default");
     for (const url of pack?.urls.values() || []) { samples.delete(url); URL.revokeObjectURL(url); }
     importedPacks.delete(id);
   }
 
-  return { play, mute, importFolder, select, ready, remove, setVolume, getVolume: () => volume };
+  return { play, mute, importFolder, select, ready, remove, setVolume, getVolume: () => volume,
+    isImported: id => importedPacks.has(id) };
 })();

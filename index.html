@@ -225,7 +225,8 @@ header,#hint{transition:opacity .3s}
 .dialog-heading h2{font-size:1rem;font-weight:500}
 #soundDialog p{color:var(--ph-dim);line-height:1.7;margin:12px 0}
 #soundDialog a{color:var(--ph);text-underline-offset:4px}
-.pack-links{display:grid;gap:12px;margin:18px 0}
+.pack-links{display:grid;grid-auto-rows:36px;max-height:108px;overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:stable;scrollbar-width:thin;margin:12px 0 18px;padding-right:8px}
+.pack-links a{display:flex;align-items:center;white-space:nowrap;min-width:0;font-size:.875rem}
 #soundChoice{width:100%;padding:10px;background:#282e29;border:1px solid var(--edge);border-radius:5px;color:var(--ph);font:inherit}
 .volume-heading{display:flex;align-items:center;justify-content:space-between;margin:18px 0 8px}
 .volume-controls{display:flex;align-items:center;gap:14px;margin-bottom:22px}
@@ -361,16 +362,19 @@ header,#hint{transition:opacity .3s}
   <div class="volume-heading"><label for="soundVolume">Volume</label><output id="soundVolumeValue" for="soundVolume">45%</output></div>
   <div class="volume-controls"><input id="soundVolume" type="range" min="0" max="100" step="1" value="45"><button class="again" id="testSound">Test sound</button></div>
   <label for="soundChoice">Active pack</label>
-  <select id="soundChoice" disabled><option value="default">Chevy · default</option></select>
-  <p id="soundStorageNote">Import once to save a pack in this browser. Download and extract its ZIP, then choose the folder.</p>
-  <div class="pack-links">
-    <a href="https://mechvibes.com/sound-packs/wooting-60he-v2" target="_blank" rel="noopener noreferrer">Wooting 60HE V2 ↗</a>
-    <a href="https://mechvibes.com/sound-packs/akko-matcha-green-switches" target="_blank" rel="noopener noreferrer">Akko Matcha Green ↗</a>
-    <a href="https://mechvibes.com/sound-packs/razer-huntsman-v3-pro-8k" target="_blank" rel="noopener noreferrer">Razer Huntsman V3 Pro 8K ↗</a>
+  <select id="soundChoice" disabled><option value="default">Aula F75 Max · default</option><option value="aula-f75">Aula F75</option><option value="clicky">Clicky First</option><option value="chevy">Chevy</option></select>
+  <p id="soundStorageNote">Add more: download and extract a pack, then import its folder. Saved in this browser.</p>
+  <div class="pack-links" role="region" aria-label="Favorite sound packs" tabindex="0">
+    <a href="https://mechvibes.com/sound-packs/wooting-60he-v2" target="_blank" rel="noopener noreferrer">Wooting 60HE V2</a>
+    <a href="https://mechvibes.com/sound-packs/akko-matcha-green-switches" target="_blank" rel="noopener noreferrer">Akko Matcha Green</a>
+    <a href="https://mechvibes.com/sound-packs/razer-huntsman-v3-pro-8k" target="_blank" rel="noopener noreferrer">Razer Huntsman V3 Pro 8K</a>
+    <a href="https://mechvibes.com/sound-packs/that-is-the-creamiest-i-ever-do-wtf-wob-rainy-75-pro-fr4-kailh-cocoa-by" target="_blank" rel="noopener noreferrer">WOB Rainy 75 Pro</a>
+    <a href="https://mechvibes.com/sound-packs/amazin-keychron-q3-bluex" target="_blank" rel="noopener noreferrer">Keychron Q3 · bluex</a>
   </div>
   <div class="sound-actions"><button class="again" id="importSounds" disabled>Import folder</button><button class="again" id="removeSound" hidden>Remove pack</button></div>
 </dialog>
 <p id="packStatus" role="status" hidden></p>
+<script src="./bundled-sounds.js"></script>
 <script src="./keyboard-sound.js"></script>
 <script>
 const WORDS="the be of and a to in he have it that for they with as not on she at by this we you do but from or which one would all will there say who make when can more if no man out other so what time up go about than into could state only new year some take come these know see use get like then first any work now may such give over think most even find day also after way many must look before great back through long where much should well people down own just because good each those feel seem how high too place little world very still nation hand old life tell write become here show house both between need mean call develop under last right move thing general school never same another begin while number part turn real leave might want point form off child few small since against ask late home interest large person end open public follow during present without again hold govern around possible head consider word program problem however lead system set order eye plan run keep face fact group play stand increase early course change help line".split(" ");
@@ -769,7 +773,7 @@ function addSoundOption({id,name}){
 TiepSound.ready.then(({packs,selected,storageAvailable})=>{
   packs.forEach(addSoundOption);$("soundChoice").value=selected;
   $("soundChoice").disabled=false;$("importSounds").disabled=false;
-  $("removeSound").hidden=selected==="default";
+  $("removeSound").hidden=!TiepSound.isImported(selected);
   if(!storageAvailable)$("soundStorageNote").textContent="Browser storage is unavailable. Imported packs will work until you close or refresh this tab.";
 });
 updateVolume();
@@ -778,9 +782,9 @@ $("testSound").onclick=()=>TiepSound.play("KeyA");
 $("soundPack").onclick=()=>$("soundDialog").showModal();
 $("closeSounds").onclick=()=>$("soundDialog").close();
 $("importSounds").onclick=()=>$("packFiles").click();
-$("soundChoice").onchange=event=>{TiepSound.select(event.target.value);$("removeSound").hidden=event.target.value==="default";TiepSound.play("KeyA")};
+$("soundChoice").onchange=event=>{TiepSound.select(event.target.value);$("removeSound").hidden=!TiepSound.isImported(event.target.value);TiepSound.play("KeyA")};
 $("removeSound").onclick=async()=>{
-  const id=$("soundChoice").value;if(id==="default")return;
+  const id=$("soundChoice").value;if(!TiepSound.isImported(id))return;
   try{
     await TiepSound.remove(id);$("soundChoice").querySelector(`option[value="${id}"]`).remove();
     $("soundChoice").value="default";TiepSound.select("default");$("removeSound").hidden=true;
